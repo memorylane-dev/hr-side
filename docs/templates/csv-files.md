@@ -1,40 +1,48 @@
-# Google Sheets 템플릿
+# CSV 파일 템플릿
 
-## 1. 목적
+## 1. 문서 역할
 
-이 문서는 HR MVP용 Google Sheets를 빠르게 생성하기 위한 탭 구조와 컬럼 템플릿을 정리한 문서다.
+이 문서는 HR MVP의 `로컬 CSV 입력 형식(input contract)`을 정의한다.
 
-복붙용 CSV 헤더 파일은 아래 경로에 있다.
+아래 항목의 기준 문서는 이 파일이다.
 
-- `templates/google-sheets/Employees.csv`
-- `templates/google-sheets/Teams.csv`
-- `templates/google-sheets/Employment_Periods.csv`
-- `templates/google-sheets/Leave_Periods.csv`
-- `templates/google-sheets/Team_Assignments.csv`
-- `templates/google-sheets/Role_Assignments.csv`
-- `templates/google-sheets/Team_Structure_History.csv`
+- 파일 이름
+- 컬럼 이름
+- 코드값 예시
+- 입력 규칙
 
-## 2. 권장 탭 구성
+비즈니스 규칙은
+[docs/operations/data-rules.md](/Users/shlee/Developments/hr-side/docs/operations/data-rules.md)를 따른다.
 
-### 2.1 입력 탭
+## 2. 파일 구조
 
-1. `Employees`
-2. `Teams`
-3. `Employment_Periods`
-4. `Leave_Periods`
-5. `Team_Assignments`
-6. `Role_Assignments`
-7. `Team_Structure_History`
+### 2.1 템플릿 파일
 
-### 2.2 출력 탭
+아래 파일은 헤더 전용 템플릿이다.
 
-1. `Dashboard`
-2. `Snapshot`
-3. `Validation`
+- `templates/csv/Employees.csv`
+- `templates/csv/Teams.csv`
+- `templates/csv/Employment_Periods.csv`
+- `templates/csv/Leave_Periods.csv`
+- `templates/csv/Team_Assignments.csv`
+- `templates/csv/Role_Assignments.csv`
+- `templates/csv/Team_Structure_History.csv`
 
-## 3. 탭별 컬럼 템플릿
+### 2.2 기본 작업 데이터
 
-### 3.1 `Employees`
+clone 직후 수정할 기본 데이터는 아래 경로에 둔다.
+
+- `data/current/Employees.csv`
+- `data/current/Teams.csv`
+- `data/current/Employment_Periods.csv`
+- `data/current/Leave_Periods.csv`
+- `data/current/Team_Assignments.csv`
+- `data/current/Role_Assignments.csv`
+- `data/current/Team_Structure_History.csv`
+
+## 3. 파일별 컬럼 정의
+
+### 3.1 `Employees.csv`
 
 | 컬럼 | 필수 | 설명 | 예시 |
 |---|---|---|---|
@@ -46,19 +54,19 @@
 | `final_termination_date` | N | 최종 퇴사일 참고값 | `2025-08-31` |
 | `status_note` | N | 메모 | `재입사 이력 있음` |
 
-### 3.2 `Teams`
+### 3.2 `Teams.csv`
 
 | 컬럼 | 필수 | 설명 | 예시 |
 |---|---|---|---|
 | `team_id` | Y | 팀 고유 ID | `TEAM-PLATFORM` |
 | `team_code` | N | 내부 조직 코드 | `PLT` |
-| `team_name_current` | Y | 현재 기준 대표 팀명 | `플랫폼팀` |
+| `team_name_current` | Y | 현재 대표 팀명 | `플랫폼팀` |
 | `team_type` | N | 조직 레벨 | `TEAM` |
 | `active_from` | Y | 팀 생성일 | `2018-01-01` |
 | `active_to` | N | 팀 종료일 | `2026-12-31` |
-| `note` | N | 메모 | `2023년에 본부 변경` |
+| `note` | N | 메모 | `2024년에 본부 이동` |
 
-### 3.3 `Employment_Periods`
+### 3.3 `Employment_Periods.csv`
 
 | 컬럼 | 필수 | 설명 | 예시 |
 |---|---|---|---|
@@ -66,11 +74,11 @@
 | `employee_id` | Y | 직원 ID | `EMP-0001` |
 | `employment_start` | Y | 입사/재입사일 | `2019-03-04` |
 | `employment_end` | N | 퇴사일 | `2025-08-31` |
-| `hire_reason` | N | 신규입사/재입사 | `NEW_HIRE` |
+| `hire_reason` | N | 입사 유형 | `NEW_HIRE` |
 | `termination_reason` | N | 퇴사 사유 | `RESIGNATION` |
-| `note` | N | 메모 | `2020-01 재입사 아님` |
+| `note` | N | 메모 | `재입사 이력 없음` |
 
-### 3.4 `Leave_Periods`
+### 3.4 `Leave_Periods.csv`
 
 | 컬럼 | 필수 | 설명 | 예시 |
 |---|---|---|---|
@@ -81,7 +89,7 @@
 | `leave_end` | N | 휴직 종료일 | `2025-03-31` |
 | `note` | N | 메모 | `복직 예정 확정` |
 
-### 3.5 `Team_Assignments`
+### 3.5 `Team_Assignments.csv`
 
 | 컬럼 | 필수 | 설명 | 예시 |
 |---|---|---|---|
@@ -94,7 +102,7 @@
 | `assignment_type` | N | 배치 유형 | `STANDARD` |
 | `note` | N | 메모 | `휴직 중 이동` |
 
-### 3.6 `Role_Assignments`
+### 3.6 `Role_Assignments.csv`
 
 | 컬럼 | 필수 | 설명 | 예시 |
 |---|---|---|---|
@@ -108,7 +116,7 @@
 | `is_acting` | N | 직무대행 여부 | `FALSE` |
 | `note` | N | 메모 | `팀장 임명` |
 
-### 3.7 `Team_Structure_History`
+### 3.7 `Team_Structure_History.csv`
 
 | 컬럼 | 필수 | 설명 | 예시 |
 |---|---|---|---|
@@ -157,43 +165,16 @@
 
 ## 5. 입력 운영 규칙
 
-1. 날짜는 모두 `YYYY-MM-DD` 형식으로 입력
-2. ID는 사람이 수정하지 않는 안정 키로 유지
-3. 이름이나 팀명은 바뀔 수 있지만 `employee_id`, `team_id`는 바꾸지 않음
-4. 종료되지 않은 기간은 종료일을 비워 둠
-5. `Team_Assignments.is_primary = TRUE`는 한 시점에 직원당 1개만 허용
-6. `Role_Assignments.role_code = TEAM_LEAD`는 한 팀당 같은 시점 1개만 허용
+1. 날짜는 모두 `YYYY-MM-DD` 형식으로 입력한다
+2. `employee_id`, `team_id`는 안정 키로 유지한다
+3. 이름과 팀명은 변경될 수 있지만 ID는 바꾸지 않는다
+4. 종료되지 않은 기간은 종료일을 비워 둔다
+5. `Team_Assignments.is_primary = TRUE`는 같은 시점에 직원당 1개만 허용한다
+6. `Role_Assignments.role_code = TEAM_LEAD`는 같은 시점에 팀당 1개만 허용한다
 
-## 6. 시트 생성 순서
+## 6. 관련 문서
 
-Google Sheets에서 아래 순서로 탭을 만들면 된다.
-
-1. `Employees`
-2. `Teams`
-3. `Employment_Periods`
-4. `Leave_Periods`
-5. `Team_Assignments`
-6. `Role_Assignments`
-7. `Team_Structure_History`
-8. `Dashboard`
-9. `Snapshot`
-10. `Validation`
-
-## 7. 초기 샘플 입력 권장
-
-처음에는 아래 예외 케이스가 반드시 포함되도록 샘플 데이터를 넣는 편이 좋다.
-
-1. 입사 후 아직 퇴사하지 않은 직원
-2. 퇴사 후 재입사한 직원
-3. 휴직 중 팀 이동한 직원
-4. 팀장은 아니지만 팀 이동한 직원
-5. 팀장은 공석인 팀
-6. 상위 조직이 바뀐 팀
-
-## 8. 다음 단계
-
-이 문서 기준으로 다음 산출물을 만들 수 있다.
-
-1. Google Apps Script 스냅샷 생성기
-2. Validation 탭 자동 검사 로직
-3. Dashboard KPI 계산 로직
+- 상위 허브: [AGENTS.md](/Users/shlee/Developments/hr-side/AGENTS.md)
+- 운영 규칙: [docs/operations/data-rules.md](/Users/shlee/Developments/hr-side/docs/operations/data-rules.md)
+- 사용 방법: [docs/usage/local-html-report.md](/Users/shlee/Developments/hr-side/docs/usage/local-html-report.md)
+- 기본 데이터: [docs/samples/reference-company.md](/Users/shlee/Developments/hr-side/docs/samples/reference-company.md)

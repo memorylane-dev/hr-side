@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HR Snapshot Report</title>
+    <style>
+      :root {
+        --bg: #f4efe8;
+        --bg-accent: #ebe0cf;
+        --panel: rgba(255, 252, 246, 0.82);
+        --panel-border: rgba(70, 52, 38, 0.12);
+        --ink: #1f1712;
+        --muted: #67574a;
+        --brand: #8c4f2f;
+        --brand-soft: #d8b396;
+        --ok: #1d6b43;
+        --warn: #b0582b;
+        --shadow: 0 18px 44px rgba(60, 37, 23, 0.12);
+        --radius: 22px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--ink);
+        font-family: "IBM Plex Sans KR", "Pretendard", "Apple SD Gothic Neo", sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(140, 79, 47, 0.18), transparent 34%),
+          radial-gradient(circle at bottom right, rgba(102, 146, 123, 0.16), transparent 28%),
+          linear-gradient(180deg, #f8f3eb 0%, var(--bg) 100%);
+      }
+
+      .page {
+        max-width: 1360px;
+        margin: 0 auto;
+        padding: 40px 24px 56px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(320px, 0.9fr);
+        gap: 22px;
+        margin-bottom: 24px;
+      }
+
+      .hero-card,
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--panel-border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(8px);
+      }
+
+      .hero-copy {
+        padding: 28px 30px;
+      }
+
+      .eyebrow {
+        margin: 0 0 10px;
+        color: var(--brand);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-family: "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+      }
+
+      h1 {
+        font-size: clamp(34px, 5vw, 56px);
+        line-height: 0.98;
+      }
+
+      .hero-copy p {
+        margin: 16px 0 0;
+        max-width: 62ch;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .control-card {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        justify-content: space-between;
+      }
+
+      .control-row {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .control-row label {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      input[type="date"] {
+        width: 100%;
+        border: 1px solid rgba(31, 23, 18, 0.16);
+        border-radius: 14px;
+        padding: 14px 16px;
+        font: inherit;
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.85);
+      }
+
+      .meta-list {
+        display: grid;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .content {
+        display: grid;
+        gap: 24px;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .metric {
+        padding: 22px 20px;
+      }
+
+      .metric-label {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .metric-value {
+        margin-top: 10px;
+        font-size: 34px;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+      }
+
+      .metric-sub {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+        gap: 24px;
+      }
+
+      .panel {
+        padding: 24px;
+      }
+
+      .panel-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: baseline;
+        margin-bottom: 18px;
+      }
+
+      .panel-head p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .tree {
+        display: grid;
+        gap: 14px;
+      }
+
+      .tree-node {
+        border: 1px solid rgba(31, 23, 18, 0.1);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.72);
+        padding: 16px 18px;
+      }
+
+      .tree-header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 14px;
+        align-items: center;
+      }
+
+      .tree-name {
+        font-size: 22px;
+      }
+
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 999px;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: 700;
+        background: rgba(140, 79, 47, 0.1);
+        color: var(--brand);
+      }
+
+      .tree-meta {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .members {
+        margin-top: 14px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .member {
+        border-radius: 999px;
+        padding: 7px 11px;
+        background: rgba(31, 23, 18, 0.06);
+        font-size: 13px;
+      }
+
+      .member.leave {
+        background: rgba(176, 88, 43, 0.14);
+        color: var(--warn);
+      }
+
+      .member.termination {
+        background: rgba(29, 107, 67, 0.14);
+        color: var(--ok);
+      }
+
+      .children {
+        margin-top: 14px;
+        margin-left: 18px;
+        display: grid;
+        gap: 12px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 11px 10px;
+        border-bottom: 1px solid rgba(31, 23, 18, 0.08);
+        vertical-align: top;
+      }
+
+      th {
+        color: var(--muted);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .indent {
+        display: inline-block;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .status-active {
+        background: rgba(29, 107, 67, 0.12);
+        color: var(--ok);
+      }
+
+      .status-leave {
+        background: rgba(176, 88, 43, 0.12);
+        color: var(--warn);
+      }
+
+      .warnings {
+        display: grid;
+        gap: 10px;
+      }
+
+      .warning-item {
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: rgba(176, 88, 43, 0.09);
+        color: #7e421f;
+        font-size: 14px;
+      }
+
+      .empty {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      @media (max-width: 1100px) {
+        .hero,
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .cards {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 720px) {
+        .page {
+          padding: 18px 14px 28px;
+        }
+
+        .hero-copy,
+        .control-card,
+        .panel,
+        .metric {
+          padding: 18px;
+        }
+
+        .cards {
+          grid-template-columns: 1fr;
+        }
+
+        .children {
+          margin-left: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <section class="hero">
+        <article class="hero-card hero-copy">
+          <p class="eyebrow">Local CSV Report</p>
+          <h1>HR Snapshot Atlas</h1>
+          <p>
+            로컬 CSV를 기준으로 특정 날짜의 조직도, 재직/휴직 상태, 당해연도 입퇴사 통계를
+            복원하는 self-contained HTML 리포트다. CSV만 수정하고 다시 build하면 같은 HTML
+            흐름으로 검증할 수 있다.
+          </p>
+        </article>
+        <aside class="hero-card control-card">
+          <div class="control-row">
+            <label for="snapshot-date">기준 날짜</label>
+            <input id="snapshot-date" type="date" />
+          </div>
+          <div class="meta-list">
+            <div>생성 시각: <strong id="generated-at"></strong></div>
+            <div>데이터 범위: <strong id="date-range"></strong></div>
+            <div>검증 경고: <strong id="warning-count"></strong></div>
+          </div>
+        </aside>
+      </section>
+
+      <main class="content">
+        <section class="cards" id="summary-cards"></section>
+
+        <section class="grid">
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>조직도</h2>
+                <p>기준일 시점의 조직 트리와 팀별 인원 구성</p>
+              </div>
+            </div>
+            <div id="org-tree" class="tree"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>팀 요약</h2>
+                <p>직속 인원과 하위 포함 조직 규모를 함께 표시</p>
+              </div>
+            </div>
+            <div style="overflow:auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th>조직</th>
+                    <th>직속</th>
+                    <th>하위 포함</th>
+                    <th>근무</th>
+                    <th>휴직</th>
+                    <th>리더</th>
+                  </tr>
+                </thead>
+                <tbody id="team-summary"></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>직원 스냅샷</h2>
+              <p>기준일 당시의 재직 직원과 소속 상태</p>
+            </div>
+          </div>
+          <div style="overflow:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>직원</th>
+                  <th>소속</th>
+                  <th>상태</th>
+                  <th>역할</th>
+                  <th>고용 형태</th>
+                  <th>메모</th>
+                </tr>
+              </thead>
+              <tbody id="employee-summary"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>검증 경고</h2>
+              <p>빌드 시점 기준 데이터 무결성 검사 결과</p>
+            </div>
+          </div>
+          <div id="warnings" class="warnings"></div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const BOOTSTRAP = {"dataset":{"employees":[{"employee_id":"EMP-0001","name":"강다은","email":"daeun.kang@example.com","employment_type":"FULL_TIME","initial_hire_date":"2017-01-02","final_termination_date":"","status_note":"CEO 역할 겸임"},{"employee_id":"EMP-0002","name":"박현우","email":"hyunwoo.park@example.com","employment_type":"FULL_TIME","initial_hire_date":"2019-03-04","final_termination_date":"","status_note":"플랫폼팀 전 팀장"},{"employee_id":"EMP-0003","name":"이서준","email":"seojun.lee@example.com","employment_type":"FULL_TIME","initial_hire_date":"2020-07-15","final_termination_date":"","status_note":"플랫폼팀 현 팀장"},{"employee_id":"EMP-0004","name":"최유진","email":"yujin.choi@example.com","employment_type":"FULL_TIME","initial_hire_date":"2021-06-21","final_termination_date":"","status_note":"데이터 분석가"},{"employee_id":"EMP-0005","name":"정하늘","email":"haneul.jung@example.com","employment_type":"FULL_TIME","initial_hire_date":"2022-02-07","final_termination_date":"","status_note":"2024년 병가 사용"},{"employee_id":"EMP-0006","name":"김소라","email":"sora.kim@example.com","employment_type":"FULL_TIME","initial_hire_date":"2020-04-13","final_termination_date":"","status_note":"휴직 중 재무팀 이동"},{"employee_id":"EMP-0007","name":"오지훈","email":"jihun.oh@example.com","employment_type":"FULL_TIME","initial_hire_date":"2018-11-05","final_termination_date":"","status_note":"인사팀 팀장"},{"employee_id":"EMP-0008","name":"한예린","email":"yerin.han@example.com","employment_type":"FULL_TIME","initial_hire_date":"2018-05-07","final_termination_date":"","status_note":"퇴사 후 재입사"},{"employee_id":"EMP-0009","name":"윤태호","email":"taeho.yoon@example.com","employment_type":"FULL_TIME","initial_hire_date":"2023-09-01","final_termination_date":"","status_note":"재무팀 팀장"},{"employee_id":"EMP-0010","name":"문지아","email":"jia.moon@example.com","employment_type":"FULL_TIME","initial_hire_date":"2021-01-18","final_termination_date":"2026-04-30","status_note":"기준일 당일 퇴사"},{"employee_id":"EMP-0011","name":"배지민","email":"jimin.bae@example.com","employment_type":"FULL_TIME","initial_hire_date":"2016-08-22","final_termination_date":"2026-02-15","status_note":"데이터팀 전 팀장"},{"employee_id":"EMP-0012","name":"서나래","email":"narae.seo@example.com","employment_type":"FULL_TIME","initial_hire_date":"2026-03-10","final_termination_date":"","status_note":"2026년 신규 입사"},{"employee_id":"EMP-0013","name":"장도윤","email":"doyoon.jang@example.com","employment_type":"FULL_TIME","initial_hire_date":"2015-09-01","final_termination_date":"","status_note":"기술조직 개편 후 Product본부장"},{"employee_id":"EMP-0014","name":"임세진","email":"sejin.lim@example.com","employment_type":"FULL_TIME","initial_hire_date":"2017-04-17","final_termination_date":"","status_note":"경영지원본부장"},{"employee_id":"EMP-0015","name":"남지훈","email":"jihun.nam@example.com","employment_type":"CONTRACT","initial_hire_date":"2025-06-02","final_termination_date":"","status_note":"플랫폼팀 계약직"}],"teams":[{"team_id":"ORG-CEO","team_code":"CEO","team_name_current":"CEO","team_type":"COMPANY","active_from":"2015-01-01","active_to":"","note":"최상위 조직"},{"team_id":"DIV-TECH","team_code":"TECH","team_name_current":"기술본부","team_type":"DIVISION","active_from":"2015-01-01","active_to":"2023-12-31","note":"2024년 Product본부로 재편"},{"team_id":"DIV-PRODUCT","team_code":"PROD","team_name_current":"Product본부","team_type":"DIVISION","active_from":"2024-01-01","active_to":"","note":"기술본부 후속 조직"},{"team_id":"DIV-CORP","team_code":"CORP","team_name_current":"경영지원본부","team_type":"DIVISION","active_from":"2015-01-01","active_to":"","note":"경영지원 조직"},{"team_id":"TEAM-PLATFORM","team_code":"PLT","team_name_current":"플랫폼팀","team_type":"TEAM","active_from":"2018-01-01","active_to":"","note":"2024년 Product본부 산하로 이동"},{"team_id":"TEAM-DATA","team_code":"DATA","team_name_current":"데이터팀","team_type":"TEAM","active_from":"2018-01-01","active_to":"","note":"2024년 Product본부 산하로 이동"},{"team_id":"TEAM-HR","team_code":"HR","team_name_current":"인사팀","team_type":"TEAM","active_from":"2016-01-01","active_to":"","note":"경영지원본부 산하"},{"team_id":"TEAM-FINANCE","team_code":"FIN","team_name_current":"재무팀","team_type":"TEAM","active_from":"2016-01-01","active_to":"","note":"경영지원본부 산하"},{"team_id":"TEAM-OPS","team_code":"OPS","team_name_current":"운영팀","team_type":"TEAM","active_from":"2015-01-01","active_to":"","note":"경영지원본부 산하"}],"employmentPeriods":[{"employment_period_id":"EP-0001","employee_id":"EMP-0001","employment_start":"2017-01-02","employment_end":"","hire_reason":"NEW_HIRE","termination_reason":"","note":"1차 근무"},{"employment_period_id":"EP-0002","employee_id":"EMP-0002","employment_start":"2019-03-04","employment_end":"","hire_reason":"NEW_HIRE","termination_reason":"","note":"1차 근무"},{"employment_period_id":"EP-0003","employee_id":"EMP-0003","employment_start":"2020-07-15","employment_end":"","hire_reason":"NEW_HIRE","termination_reason":"","note":"1차 근무"},{"employment_period_id":"EP-0004","employee_id":"EMP-0004","employment_start":"2021-06-21","employment_end":"","hire_reason":"NEW_HIRE","termination_reason":"","note":"1차 근무"},{"employment_period_id":"EP-0005","employee_id":"EMP-0005","employment_start":"2022-02-07","employment_end":"","hire_reason":"NEW_HIRE","termination_reason":"","note":"1차 근무"},{"employment_period_id":"EP-0006","employee_id":"EMP-0006","employment_start":"2020-04-13","employment_end":"","hire_reason":"NEW_HIRE","termination_reason":"","note":"1차 근무"},{"employment_period_id":"EP-0007","employee_id":"EMP-0007","employment_start":"2018-11-05","employment_end":"","hire_reason":"NEW_HIRE","termination_reason":"","note":"1차 근무"},{"employment_period_id":"EP-0008-1","employee_id":"EMP-0008","employment_start":"2018-05-07","employment_end":"2022-08-31","hire_reason":"NEW_HIRE","termination_reason":"RESIGNATION","note":"1차 근무"},{"employment_period_id":"EP-0008-2","employee_id":"EMP-0008","employment_start":"2024-01-15","employment_end":"","hire_reason":"REHIRE","termination_reason":"","note":"2차 근무"},{"employment_period_id":"EP-0009","employee_id":"EMP-0009","employment_start":"2023-09-01","employment_end":"","hire_reason":"NEW_HIRE","termination_reason":"","note":"1차 근무"},{"employment_period_id":"EP-0010","employee_id":"EMP-0010","employment_start":"2021-01-18","employment_end":"2026-04-30","hire_reason":"NEW_HIRE","termination_reason":"RESIGNATION","note":"기준일 당일 퇴사"},{"employment_period_id":"EP-0011","employee_id":"EMP-0011","employment_start":"2016-08-22","employment_end":"2026-02-15","hire_reason":"NEW_HIRE","termination_reason":"RESIGNATION","note":"데이터팀 전 팀장"},{"employment_period_id":"EP-0012","employee_id":"EMP-0012","employment_start":"2026-03-10","employment_end":"","hire_reason":"NEW_HIRE","termination_reason":"","note":"2026년 신규 입사"},{"employment_period_id":"EP-0013","employee_id":"EMP-0013","employment_start":"2015-09-01","employment_end":"","hire_reason":"NEW_HIRE","termination_reason":"","note":"기술조직 책임자"},{"employment_period_id":"EP-0014","employee_id":"EMP-0014","employment_start":"2017-04-17","employment_end":"","hire_reason":"NEW_HIRE","termination_reason":"","note":"경영지원 책임자"},{"employment_period_id":"EP-0015","employee_id":"EMP-0015","employment_start":"2025-06-02","employment_end":"","hire_reason":"NEW_HIRE","termination_reason":"","note":"플랫폼팀 계약직"}],"leavePeriods":[{"leave_id":"LV-0001","employee_id":"EMP-0005","leave_type":"SICK","leave_start":"2024-09-01","leave_end":"2024-10-15","note":"병가"},{"leave_id":"LV-0002","employee_id":"EMP-0006","leave_type":"PARENTAL","leave_start":"2025-11-01","leave_end":"2026-05-31","note":"휴직 중 재무팀 이동"},{"leave_id":"LV-0003","employee_id":"EMP-0008","leave_type":"PERSONAL","leave_start":"2024-07-01","leave_end":"2024-07-31","note":"재입사 후 개인 사유 휴직"}],"teamAssignments":[{"assignment_id":"TA-0001","employee_id":"EMP-0001","team_id":"ORG-CEO","assignment_start":"2017-01-02","assignment_end":"","is_primary":"TRUE","assignment_type":"STANDARD","note":"CEO 소속"},{"assignment_id":"TA-0002","employee_id":"EMP-0013","team_id":"DIV-TECH","assignment_start":"2015-09-01","assignment_end":"2023-12-31","is_primary":"TRUE","assignment_type":"STANDARD","note":"기술본부장"},{"assignment_id":"TA-0003","employee_id":"EMP-0013","team_id":"DIV-PRODUCT","assignment_start":"2024-01-01","assignment_end":"","is_primary":"TRUE","assignment_type":"STANDARD","note":"Product본부장"},{"assignment_id":"TA-0004","employee_id":"EMP-0014","team_id":"DIV-CORP","assignment_start":"2017-04-17","assignment_end":"","is_primary":"TRUE","assignment_type":"STANDARD","note":"경영지원본부장"},{"assignment_id":"TA-0005","employee_id":"EMP-0002","team_id":"TEAM-PLATFORM","assignment_start":"2019-03-04","assignment_end":"","is_primary":"TRUE","assignment_type":"STANDARD","note":"플랫폼팀 구성원"},{"assignment_id":"TA-0006","employee_id":"EMP-0003","team_id":"TEAM-PLATFORM","assignment_start":"2020-07-15","assignment_end":"","is_primary":"TRUE","assignment_type":"STANDARD","note":"플랫폼팀 구성원"},{"assignment_id":"TA-0007","employee_id":"EMP-0015","team_id":"TEAM-PLATFORM","assignment_start":"2025-06-02","assignment_end":"","is_primary":"TRUE","assignment_type":"STANDARD","note":"플랫폼팀 계약직"},{"assignment_id":"TA-0008","employee_id":"EMP-0004","team_id":"TEAM-DATA","assignment_start":"2021-06-21","assignment_end":"","is_primary":"TRUE","assignment_type":"STANDARD","note":"데이터팀 구성원"},{"assignment_id":"TA-0009","employee_id":"EMP-0005","team_id":"TEAM-DATA","assignment_start":"2022-02-07","assignment_end":"","is_primary":"TRUE","assignment_type":"STANDARD","note":"데이터팀 구성원"},{"assignment_id":"TA-0010","employee_id":"EMP-0011","team_id":"TEAM-DATA","assignment_start":"2016-08-22","assignment_end":"2026-02-15","is_primary":"TRUE","assignment_type":"STANDARD","note":"데이터팀 전 팀장"},{"assignment_id":"TA-0011","employee_id":"EMP-0012","team_id":"TEAM-DATA","assignment_start":"2026-03-10","assignment_end":"","is_primary":"TRUE","assignment_type":"STANDARD","note":"2026년 신규 입사"},{"assignment_id":"TA-0012","employee_id":"EMP-0006","team_id":"TEAM-HR","assignment_start":"2020-04-13","assignment_end":"2026-01-31","is_primary":"TRUE","assignment_type":"STANDARD","note":"휴직 전 인사팀 소속"},{"assignment_id":"TA-0013","employee_id":"EMP-0006","team_id":"TEAM-FINANCE","assignment_start":"2026-02-01","assignment_end":"","is_primary":"TRUE","assignment_type":"STANDARD","note":"휴직 중 이동"},{"assignment_id":"TA-0014","employee_id":"EMP-0007","team_id":"TEAM-HR","assignment_start":"2018-11-05","assignment_end":"","is_primary":"TRUE","assignment_type":"STANDARD","note":"인사팀 구성원"},{"assignment_id":"TA-0015","employee_id":"EMP-0009","team_id":"TEAM-FINANCE","assignment_start":"2023-09-01","assignment_end":"","is_primary":"TRUE","assignment_type":"STANDARD","note":"재무팀 구성원"},{"assignment_id":"TA-0016","employee_id":"EMP-0008","team_id":"TEAM-OPS","assignment_start":"2018-05-07","assignment_end":"2022-08-31","is_primary":"TRUE","assignment_type":"STANDARD","note":"1차 근무"},{"assignment_id":"TA-0017","employee_id":"EMP-0008","team_id":"TEAM-OPS","assignment_start":"2024-01-15","assignment_end":"","is_primary":"TRUE","assignment_type":"STANDARD","note":"2차 근무"},{"assignment_id":"TA-0018","employee_id":"EMP-0010","team_id":"TEAM-OPS","assignment_start":"2021-01-18","assignment_end":"2026-04-30","is_primary":"TRUE","assignment_type":"STANDARD","note":"기준일 당일 퇴사"}],"roleAssignments":[{"role_assignment_id":"RA-0001","employee_id":"EMP-0001","role_code":"DIRECTOR","scope_type":"COMPANY","scope_team_id":"ORG-CEO","role_start":"2017-01-02","role_end":"","is_acting":"FALSE","note":"CEO 역할"},{"role_assignment_id":"RA-0002","employee_id":"EMP-0013","role_code":"HEAD","scope_type":"DIVISION","scope_team_id":"DIV-TECH","role_start":"2015-09-01","role_end":"2023-12-31","is_acting":"FALSE","note":"기술본부장"},{"role_assignment_id":"RA-0003","employee_id":"EMP-0013","role_code":"HEAD","scope_type":"DIVISION","scope_team_id":"DIV-PRODUCT","role_start":"2024-01-01","role_end":"","is_acting":"FALSE","note":"Product본부장"},{"role_assignment_id":"RA-0004","employee_id":"EMP-0014","role_code":"HEAD","scope_type":"DIVISION","scope_team_id":"DIV-CORP","role_start":"2017-04-17","role_end":"","is_acting":"FALSE","note":"경영지원본부장"},{"role_assignment_id":"RA-0005","employee_id":"EMP-0002","role_code":"TEAM_LEAD","scope_type":"TEAM","scope_team_id":"TEAM-PLATFORM","role_start":"2023-01-01","role_end":"2025-12-31","is_acting":"FALSE","note":"플랫폼팀 전 팀장"},{"role_assignment_id":"RA-0006","employee_id":"EMP-0003","role_code":"TEAM_LEAD","scope_type":"TEAM","scope_team_id":"TEAM-PLATFORM","role_start":"2026-01-01","role_end":"","is_acting":"FALSE","note":"플랫폼팀 현 팀장"},{"role_assignment_id":"RA-0007","employee_id":"EMP-0011","role_code":"TEAM_LEAD","scope_type":"TEAM","scope_team_id":"TEAM-DATA","role_start":"2023-03-01","role_end":"2026-02-15","is_acting":"FALSE","note":"데이터팀 전 팀장"},{"role_assignment_id":"RA-0008","employee_id":"EMP-0007","role_code":"TEAM_LEAD","scope_type":"TEAM","scope_team_id":"TEAM-HR","role_start":"2024-01-01","role_end":"","is_acting":"FALSE","note":"인사팀 팀장"},{"role_assignment_id":"RA-0009","employee_id":"EMP-0009","role_code":"TEAM_LEAD","scope_type":"TEAM","scope_team_id":"TEAM-FINANCE","role_start":"2025-07-01","role_end":"","is_acting":"FALSE","note":"재무팀 팀장"}],"teamStructureHistory":[{"history_id":"TSH-0001","team_id":"ORG-CEO","team_name":"CEO","parent_team_id":"","effective_from":"2015-01-01","effective_to":"","status":"ACTIVE","note":"최상위 조직"},{"history_id":"TSH-0002","team_id":"DIV-TECH","team_name":"기술본부","parent_team_id":"ORG-CEO","effective_from":"2015-01-01","effective_to":"2023-12-31","status":"ACTIVE","note":"2023년까지 기술본부"},{"history_id":"TSH-0003","team_id":"DIV-PRODUCT","team_name":"Product본부","parent_team_id":"ORG-CEO","effective_from":"2024-01-01","effective_to":"","status":"ACTIVE","note":"2024년 신설"},{"history_id":"TSH-0004","team_id":"DIV-CORP","team_name":"경영지원본부","parent_team_id":"ORG-CEO","effective_from":"2015-01-01","effective_to":"","status":"ACTIVE","note":"경영지원 조직"},{"history_id":"TSH-0005","team_id":"TEAM-PLATFORM","team_name":"플랫폼팀","parent_team_id":"DIV-TECH","effective_from":"2018-01-01","effective_to":"2023-12-31","status":"ACTIVE","note":"기술본부 산하"},{"history_id":"TSH-0006","team_id":"TEAM-PLATFORM","team_name":"플랫폼팀","parent_team_id":"DIV-PRODUCT","effective_from":"2024-01-01","effective_to":"","status":"ACTIVE","note":"조직 개편 후 이동"},{"history_id":"TSH-0007","team_id":"TEAM-DATA","team_name":"데이터팀","parent_team_id":"DIV-TECH","effective_from":"2018-01-01","effective_to":"2023-12-31","status":"ACTIVE","note":"기술본부 산하"},{"history_id":"TSH-0008","team_id":"TEAM-DATA","team_name":"데이터팀","parent_team_id":"DIV-PRODUCT","effective_from":"2024-01-01","effective_to":"","status":"ACTIVE","note":"조직 개편 후 이동"},{"history_id":"TSH-0009","team_id":"TEAM-HR","team_name":"인사팀","parent_team_id":"DIV-CORP","effective_from":"2016-01-01","effective_to":"","status":"ACTIVE","note":"경영지원본부 산하"},{"history_id":"TSH-0010","team_id":"TEAM-FINANCE","team_name":"재무팀","parent_team_id":"DIV-CORP","effective_from":"2016-01-01","effective_to":"","status":"ACTIVE","note":"경영지원본부 산하"},{"history_id":"TSH-0011","team_id":"TEAM-OPS","team_name":"운영팀","parent_team_id":"DIV-CORP","effective_from":"2015-01-01","effective_to":"","status":"ACTIVE","note":"경영지원본부 산하"}]},"warnings":[],"meta":{"generatedAt":"2026-04-30T05:53:27.521Z","minDate":"2015-01-01","maxDate":"2026-05-31","defaultDate":"2026-04-30"}};
+
+      const ROLE_LABELS = {
+        TEAM_LEAD: "팀장",
+        HEAD: "본부장",
+        DIRECTOR: "대표",
+      };
+
+      const TEAM_TYPE_ORDER = {
+        COMPANY: 0,
+        DIVISION: 1,
+        TEAM: 2,
+      };
+
+      const ROLE_ORDER = {
+        DIRECTOR: 0,
+        HEAD: 1,
+        TEAM_LEAD: 2,
+      };
+
+      function isTrue(value) {
+        return String(value || "").toUpperCase() === "TRUE";
+      }
+
+      function isOnDate(start, end, targetDate) {
+        if (!start || start > targetDate) {
+          return false;
+        }
+        return !end || targetDate <= end;
+      }
+
+      function escapeHtml(value) {
+        return String(value || "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+
+      function groupBy(rows, key) {
+        const groups = new Map();
+        for (const row of rows) {
+          const group = row[key];
+          if (!groups.has(group)) {
+            groups.set(group, []);
+          }
+          groups.get(group).push(row);
+        }
+        return groups;
+      }
+
+      function sortNodes(nodes) {
+        return nodes.sort((left, right) => {
+          const typeCompare = (TEAM_TYPE_ORDER[left.teamType] ?? 9) - (TEAM_TYPE_ORDER[right.teamType] ?? 9);
+          if (typeCompare !== 0) {
+            return typeCompare;
+          }
+          return left.teamName.localeCompare(right.teamName, "ko");
+        });
+      }
+
+      function computeSnapshot(targetDate) {
+        const dataset = BOOTSTRAP.dataset;
+        const employeeMap = new Map(dataset.employees.map((row) => [row.employee_id, row]));
+        const teamMap = new Map(dataset.teams.map((row) => [row.team_id, row]));
+        const activeEmploymentRows = dataset.employmentPeriods.filter((row) =>
+          isOnDate(row.employment_start, row.employment_end, targetDate),
+        );
+        const activeEmployeeIds = new Set(activeEmploymentRows.map((row) => row.employee_id));
+        const employmentByEmployee = new Map(activeEmploymentRows.map((row) => [row.employee_id, row]));
+
+        const activeLeaveRows = dataset.leavePeriods.filter((row) =>
+          isOnDate(row.leave_start, row.leave_end, targetDate),
+        );
+        const leaveByEmployee = groupBy(activeLeaveRows, "employee_id");
+
+        const activeAssignments = dataset.teamAssignments.filter(
+          (row) => isTrue(row.is_primary) && isOnDate(row.assignment_start, row.assignment_end, targetDate),
+        );
+        const assignmentByEmployee = new Map(activeAssignments.map((row) => [row.employee_id, row]));
+
+        const activeRoles = dataset.roleAssignments.filter((row) =>
+          isOnDate(row.role_start, row.role_end, targetDate),
+        );
+        const rolesByEmployee = groupBy(activeRoles, "employee_id");
+        const rolesByScopeTeam = groupBy(activeRoles, "scope_team_id");
+
+        const activeStructures = dataset.teamStructureHistory.filter(
+          (row) => row.status !== "CLOSED" && isOnDate(row.effective_from, row.effective_to, targetDate),
+        );
+
+        const nodes = new Map();
+
+        for (const structure of activeStructures) {
+          const teamMeta = teamMap.get(structure.team_id) || {};
+          nodes.set(structure.team_id, {
+            teamId: structure.team_id,
+            teamName: structure.team_name,
+            parentTeamId: structure.parent_team_id,
+            teamType: teamMeta.team_type || "TEAM",
+            note: structure.note || teamMeta.note || "",
+            directMembers: [],
+            children: [],
+            roles: rolesByScopeTeam.get(structure.team_id) || [],
+          });
+        }
+
+        for (const node of nodes.values()) {
+          if (node.parentTeamId && nodes.has(node.parentTeamId)) {
+            nodes.get(node.parentTeamId).children.push(node);
+          }
+        }
+
+        for (const employeeId of activeEmployeeIds) {
+          const employee = employeeMap.get(employeeId);
+          const assignment = assignmentByEmployee.get(employeeId);
+          const roleRows = rolesByEmployee.get(employeeId) || [];
+          const roleText = roleRows
+            .slice()
+            .sort((left, right) => (ROLE_ORDER[left.role_code] ?? 99) - (ROLE_ORDER[right.role_code] ?? 99))
+            .map((row) => ROLE_LABELS[row.role_code] || row.role_code)
+            .join(", ");
+          const employment = employmentByEmployee.get(employeeId);
+          const onLeave = leaveByEmployee.has(employeeId);
+          const member = {
+            employeeId,
+            name: employee?.name || employeeId,
+            employmentType: employee?.employment_type || "",
+            note: employee?.status_note || "",
+            onLeave,
+            roleText,
+            teamId: assignment?.team_id || "",
+            teamName: assignment?.team_id ? (nodes.get(assignment.team_id)?.teamName || teamMap.get(assignment.team_id)?.team_name_current || assignment.team_id) : "미배정",
+            isTerminationDay: employment?.employment_end === targetDate,
+          };
+
+          if (assignment?.team_id && nodes.has(assignment.team_id)) {
+            nodes.get(assignment.team_id).directMembers.push(member);
+          }
+        }
+
+        const roots = sortNodes(
+          Array.from(nodes.values()).filter((node) => !node.parentTeamId || !nodes.has(node.parentTeamId)),
+        );
+
+        for (const node of nodes.values()) {
+          sortNodes(node.children);
+          node.directMembers.sort((left, right) => left.name.localeCompare(right.name, "ko"));
+        }
+
+        function decorate(node, depth = 0) {
+          const children = node.children.map((child) => decorate(child, depth + 1));
+          const directActive = node.directMembers.length;
+          const directLeave = node.directMembers.filter((member) => member.onLeave).length;
+          const directWorking = directActive - directLeave;
+          const subtreeActive = directActive + children.reduce((sum, child) => sum + child.stats.subtreeActive, 0);
+          const subtreeLeave = directLeave + children.reduce((sum, child) => sum + child.stats.subtreeLeave, 0);
+          const subtreeWorking = directWorking + children.reduce((sum, child) => sum + child.stats.subtreeWorking, 0);
+          const leader = (node.roles || [])
+            .slice()
+            .sort((left, right) => (ROLE_ORDER[left.role_code] ?? 99) - (ROLE_ORDER[right.role_code] ?? 99))[0];
+          const leaderName = leader ? employeeMap.get(leader.employee_id)?.name || leader.employee_id : "공석";
+          const leaderRole = leader ? ROLE_LABELS[leader.role_code] || leader.role_code : "공석";
+
+          return {
+            ...node,
+            depth,
+            children,
+            leaderName,
+            leaderRole,
+            stats: {
+              directActive,
+              directWorking,
+              directLeave,
+              subtreeActive,
+              subtreeWorking,
+              subtreeLeave,
+            },
+          };
+        }
+
+        const decoratedRoots = roots.map((root) => decorate(root));
+        const flattenedTeams = [];
+
+        function flatten(node) {
+          flattenedTeams.push(node);
+          node.children.forEach(flatten);
+        }
+
+        decoratedRoots.forEach(flatten);
+
+        const employeeRows = Array.from(activeEmployeeIds)
+          .map((employeeId) => {
+            const employee = employeeMap.get(employeeId);
+            const assignment = assignmentByEmployee.get(employeeId);
+            const employment = employmentByEmployee.get(employeeId);
+            const roleRows = (rolesByEmployee.get(employeeId) || []).slice();
+            roleRows.sort((left, right) => (ROLE_ORDER[left.role_code] ?? 99) - (ROLE_ORDER[right.role_code] ?? 99));
+            return {
+              employeeId,
+              name: employee?.name || employeeId,
+              teamName: assignment?.team_id
+                ? nodes.get(assignment.team_id)?.teamName || teamMap.get(assignment.team_id)?.team_name_current || assignment.team_id
+                : "미배정",
+              onLeave: leaveByEmployee.has(employeeId),
+              isTerminationDay: employment?.employment_end === targetDate,
+              roleText: roleRows.map((row) => ROLE_LABELS[row.role_code] || row.role_code).join(", "),
+              employmentType: employee?.employment_type || "",
+              note: employee?.status_note || "",
+            };
+          })
+          .sort((left, right) => {
+            const teamCompare = left.teamName.localeCompare(right.teamName, "ko");
+            if (teamCompare !== 0) {
+              return teamCompare;
+            }
+            return left.name.localeCompare(right.name, "ko");
+          });
+
+        const yearPrefix = targetDate.slice(0, 4);
+        const hiresYtd = dataset.employmentPeriods.filter(
+          (row) => row.employment_start.startsWith(yearPrefix) && row.employment_start <= targetDate,
+        ).length;
+        const terminationsYtd = dataset.employmentPeriods.filter(
+          (row) => row.employment_end && row.employment_end.startsWith(yearPrefix) && row.employment_end <= targetDate,
+        ).length;
+
+        return {
+          targetDate,
+          summary: {
+            active: activeEmployeeIds.size,
+            leave: activeLeaveRows.length,
+            working: activeEmployeeIds.size - activeLeaveRows.length,
+            hiresYtd,
+            terminationsYtd,
+          },
+          roots: decoratedRoots,
+          teams: flattenedTeams,
+          employees: employeeRows,
+        };
+      }
+
+      function renderCards(snapshot) {
+        const cards = [
+          ["총 재직", snapshot.summary.active, "기준일 기준 재직 중인 인원"],
+          ["총 근무", snapshot.summary.working, "휴직자를 제외한 근무 인원"],
+          ["총 휴직", snapshot.summary.leave, "기준일 기준 휴직 중인 인원"],
+          ["당해연도 입사", snapshot.summary.hiresYtd, "기준 연도 1월 1일부터 누적"],
+          ["당해연도 퇴사", snapshot.summary.terminationsYtd, "기준 연도 1월 1일부터 누적"],
+        ];
+
+        return cards
+          .map(
+            ([label, value, sub]) => `
+              <article class="hero-card metric">
+                <div class="metric-label">${escapeHtml(label)}</div>
+                <div class="metric-value">${escapeHtml(value)}</div>
+                <div class="metric-sub">${escapeHtml(sub)}</div>
+              </article>
+            `,
+          )
+          .join("");
+      }
+
+      function renderTree(nodes) {
+        if (nodes.length === 0) {
+          return '<p class="empty">선택한 날짜에 유효한 조직 구조가 없습니다.</p>';
+        }
+        return nodes.map(renderTreeNode).join("");
+      }
+
+      function renderTreeNode(node) {
+        const members = node.directMembers.length
+          ? `
+              <div class="members">
+                ${node.directMembers
+                  .map((member) => {
+                    const classes = ["member"];
+                    if (member.onLeave) {
+                      classes.push("leave");
+                    }
+                    if (member.isTerminationDay) {
+                      classes.push("termination");
+                    }
+                    const suffix = [
+                      member.roleText ? member.roleText : "",
+                      member.onLeave ? "휴직" : "",
+                      member.isTerminationDay ? "당일 퇴사" : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" · ");
+                    return `<span class="${classes.join(" ")}">${escapeHtml(member.name)}${suffix ? ` · ${escapeHtml(suffix)}` : ""}</span>`;
+                  })
+                  .join("")}
+              </div>
+            `
+          : "";
+        const children = node.children.length
+          ? `<div class="children">${node.children.map(renderTreeNode).join("")}</div>`
+          : "";
+
+        return `
+          <section class="tree-node">
+            <div class="tree-header">
+              <h3 class="tree-name">${escapeHtml(node.teamName)}</h3>
+              <span class="tag">${escapeHtml(node.teamType)}</span>
+              <span class="tag">직속 ${node.stats.directActive}</span>
+              <span class="tag">하위 포함 ${node.stats.subtreeActive}</span>
+            </div>
+            <div class="tree-meta">
+              <span>리더: <strong>${escapeHtml(node.leaderName)}</strong></span>
+              <span>근무 ${node.stats.subtreeWorking}</span>
+              <span>휴직 ${node.stats.subtreeLeave}</span>
+              ${node.note ? `<span>메모: ${escapeHtml(node.note)}</span>` : ""}
+            </div>
+            ${members}
+            ${children}
+          </section>
+        `;
+      }
+
+      function renderTeamSummary(teams) {
+        return teams
+          .map(
+            (team) => `
+              <tr>
+                <td><span class="indent" style="padding-left:${team.depth * 16}px">${escapeHtml(team.teamName)}</span></td>
+                <td>${team.stats.directActive}</td>
+                <td>${team.stats.subtreeActive}</td>
+                <td>${team.stats.subtreeWorking}</td>
+                <td>${team.stats.subtreeLeave}</td>
+                <td>${escapeHtml(team.leaderName)}</td>
+              </tr>
+            `,
+          )
+          .join("");
+      }
+
+      function renderEmployees(employees) {
+        return employees
+          .map((employee) => {
+            const statusClass = employee.onLeave ? "status-leave" : "status-active";
+            const statusLabel = employee.onLeave ? "휴직" : employee.isTerminationDay ? "재직 / 당일 퇴사" : "재직";
+            return `
+              <tr>
+                <td>${escapeHtml(employee.name)}<br /><span style="color:var(--muted);font-size:12px">${escapeHtml(employee.employeeId)}</span></td>
+                <td>${escapeHtml(employee.teamName)}</td>
+                <td><span class="status-pill ${statusClass}">${escapeHtml(statusLabel)}</span></td>
+                <td>${escapeHtml(employee.roleText || "-")}</td>
+                <td>${escapeHtml(employee.employmentType || "-")}</td>
+                <td>${escapeHtml(employee.note || "-")}</td>
+              </tr>
+            `;
+          })
+          .join("");
+      }
+
+      function renderWarnings(warnings) {
+        if (warnings.length === 0) {
+          return '<p class="empty">경고 없음. 현재 데이터셋에서는 기본 무결성 검사를 통과했습니다.</p>';
+        }
+
+        return warnings.map((warning) => `<div class="warning-item">${escapeHtml(warning)}</div>`).join("");
+      }
+
+      function refresh() {
+        const dateInput = document.getElementById("snapshot-date");
+        const snapshot = computeSnapshot(dateInput.value);
+        document.getElementById("summary-cards").innerHTML = renderCards(snapshot);
+        document.getElementById("org-tree").innerHTML = renderTree(snapshot.roots);
+        document.getElementById("team-summary").innerHTML = renderTeamSummary(snapshot.teams);
+        document.getElementById("employee-summary").innerHTML = renderEmployees(snapshot.employees);
+      }
+
+      function boot() {
+        const dateInput = document.getElementById("snapshot-date");
+        dateInput.min = BOOTSTRAP.meta.minDate;
+        dateInput.max = BOOTSTRAP.meta.maxDate;
+        dateInput.value = BOOTSTRAP.meta.defaultDate;
+        dateInput.addEventListener("input", refresh);
+
+        document.getElementById("generated-at").textContent = BOOTSTRAP.meta.generatedAt.slice(0, 16).replace("T", " ");
+        document.getElementById("date-range").textContent = `${BOOTSTRAP.meta.minDate} ~ ${BOOTSTRAP.meta.maxDate}`;
+        document.getElementById("warning-count").textContent = `${BOOTSTRAP.warnings.length}건`;
+        document.getElementById("warnings").innerHTML = renderWarnings(BOOTSTRAP.warnings);
+
+        refresh();
+      }
+
+      boot();
+    </script>
+  </body>
+</html>

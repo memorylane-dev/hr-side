@@ -1,0 +1,16 @@
+employee_id,name,email,employment_type,initial_hire_date,final_termination_date,status_note
+EMP-0001,강다은,daeun.kang@example.com,FULL_TIME,2017-01-02,,CEO 역할 겸임
+EMP-0002,박현우,hyunwoo.park@example.com,FULL_TIME,2019-03-04,,플랫폼팀 전 팀장
+EMP-0003,이서준,seojun.lee@example.com,FULL_TIME,2020-07-15,,플랫폼팀 현 팀장
+EMP-0004,최유진,yujin.choi@example.com,FULL_TIME,2021-06-21,,데이터 분석가
+EMP-0005,정하늘,haneul.jung@example.com,FULL_TIME,2022-02-07,,2024년 병가 사용
+EMP-0006,김소라,sora.kim@example.com,FULL_TIME,2020-04-13,,휴직 중 재무팀 이동
+EMP-0007,오지훈,jihun.oh@example.com,FULL_TIME,2018-11-05,,인사팀 팀장
+EMP-0008,한예린,yerin.han@example.com,FULL_TIME,2018-05-07,,퇴사 후 재입사
+EMP-0009,윤태호,taeho.yoon@example.com,FULL_TIME,2023-09-01,,재무팀 팀장
+EMP-0010,문지아,jia.moon@example.com,FULL_TIME,2021-01-18,2026-04-30,기준일 당일 퇴사
+EMP-0011,배지민,jimin.bae@example.com,FULL_TIME,2016-08-22,2026-02-15,데이터팀 전 팀장
+EMP-0012,서나래,narae.seo@example.com,FULL_TIME,2026-03-10,,2026년 신규 입사
+EMP-0013,장도윤,doyoon.jang@example.com,FULL_TIME,2015-09-01,,기술조직 개편 후 Product본부장
+EMP-0014,임세진,sejin.lim@example.com,FULL_TIME,2017-04-17,,경영지원본부장
+EMP-0015,남지훈,jihun.nam@example.com,CONTRACT,2025-06-02,,플랫폼팀 계약직

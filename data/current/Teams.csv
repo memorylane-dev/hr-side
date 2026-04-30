@@ -1,0 +1,10 @@
+team_id,team_code,team_name_current,team_type,active_from,active_to,note
+ORG-CEO,CEO,CEO,COMPANY,2015-01-01,,최상위 조직
+DIV-TECH,TECH,기술본부,DIVISION,2015-01-01,2023-12-31,2024년 Product본부로 재편
+DIV-PRODUCT,PROD,Product본부,DIVISION,2024-01-01,,기술본부 후속 조직
+DIV-CORP,CORP,경영지원본부,DIVISION,2015-01-01,,경영지원 조직
+TEAM-PLATFORM,PLT,플랫폼팀,TEAM,2018-01-01,,2024년 Product본부 산하로 이동
+TEAM-DATA,DATA,데이터팀,TEAM,2018-01-01,,2024년 Product본부 산하로 이동
+TEAM-HR,HR,인사팀,TEAM,2016-01-01,,경영지원본부 산하
+TEAM-FINANCE,FIN,재무팀,TEAM,2016-01-01,,경영지원본부 산하
+TEAM-OPS,OPS,운영팀,TEAM,2015-01-01,,경영지원본부 산하
