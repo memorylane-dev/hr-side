@@ -1,82 +1,127 @@
 # hr-side
 
-직원 입퇴사, 휴직, 팀 이동, 팀장 보직, 조직 구조 이력을 로컬 CSV로 관리하고,
-특정 날짜 기준 조직도와 HR 통계를 단일 HTML로 생성하는 저장소다.
+이 저장소는 `직원 입퇴사 / 휴직 / 팀 이동 / 팀장 변경 / 조직 변경` 이력을 CSV로 관리하고,
+특정 날짜 기준 조직도와 인사 현황을 HTML 화면으로 확인하는 용도입니다.
 
-현재 산출물은 [dist/index.html](/Users/shlee/Developments/hr-side/dist/index.html) 하나다.
-`scripts/build-report.mjs`가 `data/current/*.csv`를 읽어 데이터를 HTML 내부에 직접 포함한다.
+인사팀은 주로 `data/current/*.csv` 파일만 수정하면 됩니다.
+수정 후에는 `npm run build`를 실행하면 최신 화면이 다시 만들어집니다.
 
-## 현재 구현 범위
+## 가장 먼저 보면 되는 파일
 
-- 기준 날짜 선택
-- 총 재직 / 근무 / 휴직 / 당해연도 입사 / 당해연도 퇴사 KPI
-- 조직도 카드형 뷰
-- 팀명 + 리더 이름/직함 표시
-- 카드 hover 또는 focus 시 직속 팀원 popover
-- 팀 요약 테이블
-- 직원 검색 결과 표시
-- 빌드 시 CSV 무결성 검사와 경고 개수 출력
+- 직원 기본 정보: [Employees.csv](/Users/shlee/Developments/hr-side/data/current/Employees.csv)
+- 입사 / 퇴사 / 재입사: [Employment_Periods.csv](/Users/shlee/Developments/hr-side/data/current/Employment_Periods.csv)
+- 휴직 / 복직: [Leave_Periods.csv](/Users/shlee/Developments/hr-side/data/current/Leave_Periods.csv)
+- 팀 이동: [Team_Assignments.csv](/Users/shlee/Developments/hr-side/data/current/Team_Assignments.csv)
+- 팀장 / 보직 변경: [Role_Assignments.csv](/Users/shlee/Developments/hr-side/data/current/Role_Assignments.csv)
+- 조직명 / 상위 조직 변경: [Team_Structure_History.csv](/Users/shlee/Developments/hr-side/data/current/Team_Structure_History.csv)
+- 결과 화면: [dist/index.html](/Users/shlee/Developments/hr-side/dist/index.html)
 
-현재 UI에는 검증 경고 목록을 따로 렌더링하지 않는다.
-경고는 `npm run build` 실행 결과로 확인한다.
+## 인사팀이 수정하는 표
 
-## 빠른 시작
+| 상황 | 수정할 파일 | 주로 수정하는 열 |
+|---|---|---|
+| 신규 입사 | `Employees.csv`, `Employment_Periods.csv`, `Team_Assignments.csv` | `name`, `employment_type`, `employment_start`, `team_id`, `assignment_start` |
+| 재입사 | `Employment_Periods.csv`, `Team_Assignments.csv` | 새 행 추가, `employment_start`, `team_id`, `assignment_start` |
+| 퇴사 | `Employment_Periods.csv` | `employment_end`, `termination_reason` |
+| 기준일 당일 퇴사 | `Employment_Periods.csv` | `employment_end`를 그 날짜로 입력 |
+| 휴직 / 복직 | `Leave_Periods.csv` | `leave_type`, `leave_start`, `leave_end` |
+| 팀 이동 | `Team_Assignments.csv` | 기존 행 `assignment_end`, 새 행 `team_id`, `assignment_start`, `is_primary` |
+| 팀장 변경 | `Role_Assignments.csv` | 기존 팀장 행 `role_end`, 새 팀장 행 `role_code=TEAM_LEAD`, `scope_team_id`, `role_start` |
+| 본부 / 팀 이름 변경 | `Team_Structure_History.csv` | `team_name`, `effective_from`, 필요하면 `effective_to` |
+| 상위 조직 변경 | `Team_Structure_History.csv` | `parent_team_id`, `effective_from`, 필요하면 기존 행 `effective_to` |
+
+## 기준일 당일 퇴사 입력 규칙
+
+`기준일 당일 퇴사`는 별도 특수 로직이 아니라 아래처럼 입력합니다.
+
+1. [Employment_Periods.csv](/Users/shlee/Developments/hr-side/data/current/Employment_Periods.csv)에서 해당 직원의 `employment_end`를 그 날짜로 입력
+2. 필요하면 [Employees.csv](/Users/shlee/Developments/hr-side/data/current/Employees.csv)의 `final_termination_date`도 같은 날짜로 맞춤
+3. `npm run build` 후 화면에서 확인
+
+이 경우 그 날짜에는 `재직`으로 계산되고, 직원 검색 결과의 상태에서 `재직 / 당일 퇴사`로 표시됩니다.
+
+## 수정 순서
+
+1. 필요한 CSV 파일을 연다
+2. 행을 추가하거나 날짜를 수정한다
+3. 저장한다
+4. 터미널에서 아래 명령을 실행한다
 
 ```bash
-npm run sample
 npm run build
 ```
 
-그 다음 [dist/index.html](/Users/shlee/Developments/hr-side/dist/index.html)을 열면 된다.
+5. [dist/index.html](/Users/shlee/Developments/hr-side/dist/index.html)을 연다
+6. 기준 날짜를 바꾸거나 직원 검색으로 결과를 확인한다
 
-CSV를 수정한 뒤에는 반드시 다시 build 해야 최신 내용이 반영된다.
+## 화면에서 확인할 수 있는 내용
 
-로컬 preview 서버가 필요하면 아래처럼 실행한다.
+- 기준 날짜별 총 재직 인원
+- 총 근무 인원
+- 총 휴직 인원
+- 당해연도 입사 / 퇴사 수
+- 조직도
+- 팀별 요약 표
+- 직원 검색 결과
 
-```bash
-python3 -m http.server 4173 -d dist
-```
+## 자주 수정하는 파일 설명
 
-브라우저에서 `http://127.0.0.1:4173`로 확인한다.
+### 1. 직원 기본 정보
 
-## 작업 흐름
+- 파일: [Employees.csv](/Users/shlee/Developments/hr-side/data/current/Employees.csv)
+- 언제 수정하나:
+  직원 이름, 이메일, 고용 형태, 비고를 바꿀 때
 
-1. `data/current/*.csv` 수정
-2. `npm run build`
-3. `dist/index.html` 확인
+### 2. 입사 / 퇴사 / 재입사
 
-기본 샘플을 초기 상태로 다시 만들고 싶으면 먼저 `npm run sample`을 실행한다.
+- 파일: [Employment_Periods.csv](/Users/shlee/Developments/hr-side/data/current/Employment_Periods.csv)
+- 언제 수정하나:
+  입사, 퇴사, 재입사 이력을 넣을 때
+- 주의:
+  퇴사일 당일도 재직으로 계산됩니다
 
-## 명령
+### 3. 휴직 / 복직
+
+- 파일: [Leave_Periods.csv](/Users/shlee/Developments/hr-side/data/current/Leave_Periods.csv)
+- 언제 수정하나:
+  육아휴직, 병가, 무급휴직 등 근무 예외 상태를 넣을 때
+
+### 4. 팀 이동
+
+- 파일: [Team_Assignments.csv](/Users/shlee/Developments/hr-side/data/current/Team_Assignments.csv)
+- 언제 수정하나:
+  직원의 주 소속 팀이 바뀔 때
+- 주의:
+  기존 소속 행을 끝내고 새 소속 행을 추가합니다
+
+### 5. 팀장 변경
+
+- 파일: [Role_Assignments.csv](/Users/shlee/Developments/hr-side/data/current/Role_Assignments.csv)
+- 언제 수정하나:
+  팀장 임명, 해제, 교체가 있을 때
+
+### 6. 조직 변경
+
+- 파일: [Team_Structure_History.csv](/Users/shlee/Developments/hr-side/data/current/Team_Structure_History.csv)
+- 언제 수정하나:
+  팀명 변경, 상위 본부 변경, 조직 종료가 있을 때
+
+## 참고 명령
+
+기본 샘플 데이터를 다시 만들고 싶으면:
 
 ```bash
 npm run sample
-npm run build
-node scripts/build-report.mjs --default-date 2026-04-30
+```
+
+특정 날짜 숫자만 빠르게 보고 싶으면:
+
+```bash
 node scripts/build-report.mjs --check-date 2026-04-30
-node scripts/build-report.mjs --input-dir data/current --output dist/index.html
 ```
 
-## 입력 데이터
+## 추가 문서
 
-실제 작업 데이터는 아래 7개 파일이다.
-
-- `data/current/Employees.csv`
-- `data/current/Teams.csv`
-- `data/current/Employment_Periods.csv`
-- `data/current/Leave_Periods.csv`
-- `data/current/Team_Assignments.csv`
-- `data/current/Role_Assignments.csv`
-- `data/current/Team_Structure_History.csv`
-
-기본 샘플은 `4개 본부 / 20개 팀 / 200명` 규모다.
-역할 체계는 `대표 / 부대표 / 전무 / 상무 / 이사 / 팀장 / 팀원`을 사용한다.
-
-## 주요 파일
-
-- [AGENTS.md](/Users/shlee/Developments/hr-side/AGENTS.md)
-- [scripts/build-report.mjs](/Users/shlee/Developments/hr-side/scripts/build-report.mjs)
-- [scripts/generate-sample-data.mjs](/Users/shlee/Developments/hr-side/scripts/generate-sample-data.mjs)
-- [docs/operations/data-rules.md](/Users/shlee/Developments/hr-side/docs/operations/data-rules.md)
-- [CSV 스키마](docs/templates/csv-files.md)
-- [docs/samples/reference-company.md](/Users/shlee/Developments/hr-side/docs/samples/reference-company.md)
+- 운영 규칙: [docs/operations/data-rules.md](/Users/shlee/Developments/hr-side/docs/operations/data-rules.md)
+- CSV 입력 규칙: [docs/templates/csv-files.md](/Users/shlee/Developments/hr-side/docs/templates/csv-files.md)
+- 샘플 데이터 설명: [docs/samples/reference-company.md](/Users/shlee/Developments/hr-side/docs/samples/reference-company.md)

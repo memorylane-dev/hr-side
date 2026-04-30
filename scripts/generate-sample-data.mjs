@@ -117,6 +117,29 @@ const topOfficeStaff = [
   { id: 4, name: "이도현", hire: "2021-05-17", note: "대표실 전략 프로젝트 담당" },
 ];
 
+const TEAM_HEADCOUNTS = [
+  11,
+  7,
+  10,
+  8,
+  9,
+  12,
+  7,
+  11,
+  6,
+  8,
+  13,
+  5,
+  10,
+  9,
+  9,
+  8,
+  10,
+  7,
+  11,
+  9,
+];
+
 const specialCases = {
   teamLeadVacancyEmployeeId: "EMP-0057",
   teamLeadVacancyEnd: "2026-02-15",
@@ -150,6 +173,41 @@ const pastLeaveCases = [
 
 const newHireIds2026 = new Set(["EMP-0083", "EMP-0118", "EMP-0173", "EMP-0194"]);
 const contractIds = new Set(["EMP-0035", "EMP-0072", "EMP-0108", "EMP-0136", "EMP-0179", "EMP-0198"]);
+const SAMPLE_FAMILY_NAMES = ["김", "이", "박", "최", "정", "강", "조", "윤", "장", "임", "한", "오", "서", "신", "권", "황"];
+const SAMPLE_GIVEN_NAMES = [
+  "민준",
+  "서준",
+  "도윤",
+  "예준",
+  "시우",
+  "지호",
+  "하준",
+  "은우",
+  "유준",
+  "정우",
+  "서연",
+  "지우",
+  "서현",
+  "하은",
+  "지민",
+  "수아",
+  "예은",
+  "민서",
+  "채원",
+  "가은",
+  "다은",
+  "소윤",
+  "유나",
+  "아린",
+  "현우",
+  "지안",
+  "나현",
+  "도현",
+  "주원",
+  "세린",
+  "하린",
+  "연우",
+];
 
 async function main() {
   const dataset = buildDataset();
@@ -298,9 +356,14 @@ function buildDataset() {
     );
   }
 
+  if (TEAM_HEADCOUNTS.length !== teams.length) {
+    throw new Error(`TEAM_HEADCOUNTS length mismatch: expected ${teams.length}, got ${TEAM_HEADCOUNTS.length}`);
+  }
+
   let currentNumericId = 21;
   for (const team of teams) {
-    for (let memberIndex = 0; memberIndex < 9; memberIndex += 1) {
+    const teamHeadcount = TEAM_HEADCOUNTS[team.index];
+    for (let memberIndex = 0; memberIndex < teamHeadcount; memberIndex += 1) {
       const numericId = currentNumericId;
       currentNumericId += 1;
       const employeeId = formatEmployeeId(numericId);
@@ -481,12 +544,31 @@ function resolveTeamMemberName(team, employeeId, memberIndex) {
   if (employeeId === specialCases.turnoverOldLeadEmployeeId) {
     return team.leadName;
   }
-  return `구성원${employeeId.slice(-3)}`;
+  return generateSamplePersonName(employeeId, team.index, memberIndex);
+}
+
+function generateSamplePersonName(employeeId, teamIndex, memberIndex) {
+  const numericId = Number(employeeId.slice(-4));
+  const familyName = SAMPLE_FAMILY_NAMES[(numericId + teamIndex) % SAMPLE_FAMILY_NAMES.length];
+  const givenName = SAMPLE_GIVEN_NAMES[(numericId * 3 + memberIndex + teamIndex) % SAMPLE_GIVEN_NAMES.length];
+  return `${familyName}${givenName}`;
 }
 
 function resolveHireDate(teamIndex, employeeId, memberIndex) {
+  if (employeeId === "EMP-0083") {
+    return "2026-06-14";
+  }
+  if (employeeId === "EMP-0118") {
+    return "2026-09-18";
+  }
+  if (employeeId === "EMP-0173") {
+    return "2026-07-06";
+  }
+  if (employeeId === "EMP-0194") {
+    return "2026-04-15";
+  }
   if (newHireIds2026.has(employeeId)) {
-    return `2026-${pad(((teamIndex + memberIndex) % 9) + 1, 2)}-${pad(((teamIndex + 7) % 20) + 1, 2)}`;
+    return "2026-06-01";
   }
   if (employeeId === specialCases.rehireEmployeeId) {
     return "2019-04-15";

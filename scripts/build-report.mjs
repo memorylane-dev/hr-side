@@ -557,25 +557,144 @@ function buildHtml(payload) {
 
       .org-chart {
         display: grid;
-        gap: 24px;
+        gap: 22px;
         overflow: visible;
       }
 
-      .org-group {
-        position: relative;
+      .org-root-stage {
         display: grid;
         justify-items: center;
-        z-index: 0;
+      }
+
+      .org-root-stage.has-children::after {
+        content: "";
+        width: 2px;
+        height: 24px;
+        margin-top: 10px;
+        background: #111111;
+      }
+
+      .org-stage-stack {
+        display: grid;
+        gap: 28px;
+      }
+
+      .org-stage {
+        display: grid;
+        gap: 0;
+        justify-items: center;
         overflow: visible;
       }
 
-      .org-group:hover,
-      .org-group:focus-within {
+      .org-stage-head,
+      .org-stage-slot,
+      .org-node-cluster {
+        position: relative;
+        width: 100%;
+        overflow: visible;
+      }
+
+      .org-stage-head {
+        display: flex;
+        justify-content: center;
+      }
+
+      .org-stage-children {
+        position: relative;
+        width: 100%;
+        margin-top: 12px;
+        padding-top: 22px;
+        overflow: visible;
+      }
+
+      .org-stage-children::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 2px;
+        height: 22px;
+        background: #111111;
+        transform: translateX(-50%);
+      }
+
+      .org-stage-row {
+        position: relative;
+        display: grid;
+        gap: 18px 14px;
+        grid-template-columns: repeat(var(--org-columns, 1), minmax(0, 1fr));
+        align-items: start;
+        width: 100%;
+        padding-top: 18px;
+        overflow: visible;
+      }
+
+      .org-stage-row::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 28px;
+        right: 28px;
+        height: 2px;
+        background: #111111;
+      }
+
+      .org-stage-row.single {
+        max-width: 240px;
+        margin: 0 auto;
+        padding-top: 0;
+      }
+
+      .org-stage-row.single::before {
+        display: none;
+      }
+
+      .org-stage-slot {
+        padding-top: 18px;
+        display: grid;
+        justify-items: center;
+      }
+
+      .org-stage-slot::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 2px;
+        height: 18px;
+        background: #111111;
+        transform: translateX(-50%);
+      }
+
+      .org-stage-row.single .org-stage-slot {
+        padding-top: 0;
+      }
+
+      .org-stage-row.single .org-stage-slot::before {
+        top: -18px;
+      }
+
+      .org-node-cluster {
+        display: grid;
+        gap: 0;
+        z-index: 0;
+      }
+
+      .org-node-cluster:hover,
+      .org-node-cluster:focus-within {
         z-index: 240;
       }
 
-      .org-group.depth-0 {
-        width: 100%;
+      .org-node-cluster.has-children {
+        justify-items: center;
+      }
+
+      .org-node-cluster.has-children > .org-stage-children {
+        width: min(100%, 540px);
+      }
+
+      .org-node-cluster.has-children > .org-stage-children .org-stage-row {
+        gap: 14px 10px;
       }
 
       .org-card-anchor {
@@ -583,148 +702,84 @@ function buildHtml(payload) {
         display: flex;
         justify-content: center;
         width: 100%;
-        z-index: 0;
         overflow: visible;
-      }
-
-      .org-group.has-children > .org-card-anchor::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        bottom: -18px;
-        width: 1px;
-        height: 18px;
-        background: rgba(0, 0, 0, 0.42);
-        transform: translateX(-50%);
-      }
-
-      .org-children {
-        position: relative;
-        width: 100%;
-        margin-top: 18px;
-        padding-top: 24px;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 18px 16px;
-      }
-
-      .org-children::before {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 0;
-        width: 1px;
-        height: 24px;
-        background: rgba(0, 0, 0, 0.42);
-        transform: translateX(-50%);
-      }
-
-      .org-children::after {
-        content: "";
-        position: absolute;
-        left: 28px;
-        right: 28px;
-        top: 0;
-        height: 1px;
-        background: rgba(0, 0, 0, 0.42);
-      }
-
-      .org-children > .org-group {
-        position: relative;
-        padding-top: 18px;
-      }
-
-      .org-children > .org-group:hover,
-      .org-children > .org-group:focus-within {
-        z-index: 280;
-      }
-
-      .org-children > .org-group::before {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 0;
-        width: 1px;
-        height: 18px;
-        background: rgba(0, 0, 0, 0.42);
-        transform: translateX(-50%);
       }
 
       .org-card {
         position: relative;
-        width: min(100%, 228px);
-        padding: 12px 13px 13px;
-        border-radius: 4px;
+        width: min(100%, 100%);
+        padding: 10px 11px 11px;
+        border-radius: 3px;
         border: 2px solid #111111;
         background: #ffffff;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
         text-align: left;
         transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
         outline: none;
       }
 
-      .org-card:hover,
-      .org-card:focus-within,
-      .org-card:focus {
-        transform: translateY(-3px);
+      .org-card.interactive:hover,
+      .org-card.interactive:focus-within,
+      .org-card.interactive:focus {
+        transform: translateY(-2px);
         box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
         border-color: #000000;
         z-index: 320;
       }
 
-      .org-group.depth-0 > .org-card-anchor > .org-card {
-        min-width: 244px;
-        max-width: 268px;
-        padding: 14px 16px 15px;
-        background: #ffffff;
-        color: var(--ink);
-        border: 2px solid #000000;
-      }
-
-      .org-group.depth-0 > .org-card-anchor > .org-card .org-card-type,
-      .org-group.depth-0 > .org-card-anchor > .org-card .org-card-meta,
-      .org-group.depth-0 > .org-card-anchor > .org-card .org-card-role {
-        color: var(--muted);
-      }
-
-      .org-group.depth-1 > .org-card-anchor > .org-card {
+      .org-root-card {
         width: min(100%, 236px);
+        padding: 13px 14px 14px;
       }
 
-      .org-group.depth-2 > .org-card-anchor > .org-card {
-        width: min(100%, 220px);
+      .org-division-card {
+        width: min(100%, 214px);
+      }
+
+      .org-team-card {
+        width: min(100%, 170px);
+        min-height: 96px;
       }
 
       .org-card-band {
-        height: 4px;
-        width: 42px;
-        border-radius: 2px;
+        height: 3px;
+        width: 22px;
         background: var(--brand);
-        margin-bottom: 10px;
+        margin-bottom: 8px;
+      }
+
+      .org-root-card .org-card-band,
+      .org-division-card .org-card-band {
+        width: 18px;
       }
 
       .org-card-type {
         margin: 0;
         color: var(--muted);
-        font-size: 10px;
+        font-size: 9px;
         font-weight: 700;
         letter-spacing: 0.14em;
         text-transform: uppercase;
       }
 
       .org-card-title {
-        margin-top: 6px;
-        font-size: 20px;
-        line-height: 1.08;
+        margin-top: 5px;
+        font-size: 18px;
+        line-height: 1.1;
+      }
+
+      .org-team-card .org-card-title {
+        font-size: 15px;
+        line-height: 1.18;
       }
 
       .org-card-leader {
-        margin-top: 10px;
+        margin-top: 8px;
         display: flex;
         flex-wrap: wrap;
         align-items: baseline;
-        gap: 6px;
-        font-size: 15px;
+        gap: 5px;
+        font-size: 13px;
         line-height: 1.25;
       }
 
@@ -734,24 +789,24 @@ function buildHtml(payload) {
 
       .org-card-role {
         color: var(--muted);
-        font-size: 13px;
+        font-size: 12px;
       }
 
       .org-card-meta {
-        margin-top: 10px;
+        margin-top: 8px;
         display: flex;
         flex-wrap: wrap;
-        gap: 6px;
+        gap: 5px;
         color: var(--muted);
-        font-size: 12px;
+        font-size: 11px;
       }
 
       .org-chip {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        padding: 4px 7px;
-        border-radius: 4px;
+        gap: 5px;
+        padding: 3px 6px;
+        border-radius: 3px;
         border: 1px solid #111111;
         background: #ffffff;
         color: var(--ink);
@@ -763,10 +818,10 @@ function buildHtml(payload) {
         z-index: 340;
         top: calc(100% + 12px);
         left: 50%;
-        width: 290px;
+        width: 260px;
         padding: 14px;
-        border-radius: 6px;
-        border: 1px solid rgba(0, 0, 0, 0.82);
+        border-radius: 4px;
+        border: 2px solid #111111;
         background: #ffffff;
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
         opacity: 0;
@@ -776,9 +831,9 @@ function buildHtml(payload) {
         overflow: visible;
       }
 
-      .org-card:hover .org-popover,
-      .org-card:focus-within .org-popover,
-      .org-card:focus .org-popover {
+      .org-card.interactive:hover .org-popover,
+      .org-card.interactive:focus-within .org-popover,
+      .org-card.interactive:focus .org-popover {
         opacity: 1;
         pointer-events: auto;
         transform: translate(-50%, 0);
@@ -787,13 +842,13 @@ function buildHtml(payload) {
       .org-popover::before {
         content: "";
         position: absolute;
-        top: -8px;
+        top: -9px;
         left: 50%;
         width: 14px;
         height: 14px;
         background: #ffffff;
-        border-top: 1px solid rgba(0, 0, 0, 0.82);
-        border-left: 1px solid rgba(0, 0, 0, 0.82);
+        border-top: 2px solid #111111;
+        border-left: 2px solid #111111;
         transform: translateX(-50%) rotate(45deg);
       }
 
@@ -836,11 +891,11 @@ function buildHtml(payload) {
         display: flex;
         justify-content: space-between;
         gap: 10px;
-        padding: 8px 10px;
-        border-radius: 4px;
-        border: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 7px 9px;
+        border-radius: 3px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
         background: #fafafa;
-        font-size: 13px;
+        font-size: 12px;
       }
 
       .org-member-name {
@@ -849,13 +904,13 @@ function buildHtml(payload) {
 
       .org-member-note {
         color: var(--muted);
-        font-size: 12px;
+        font-size: 11px;
         text-align: right;
       }
 
       .org-member-empty {
         color: var(--muted);
-        font-size: 13px;
+        font-size: 12px;
       }
 
       .employee-search {
@@ -962,13 +1017,28 @@ function buildHtml(payload) {
           grid-template-columns: 1fr;
         }
 
-        .org-children {
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        .org-stage-row {
+          grid-template-columns: 1fr;
+          padding-top: 0;
         }
 
-        .org-children::after {
-          left: 18px;
-          right: 18px;
+        .org-stage-row::before,
+        .org-stage-slot::before {
+          display: none;
+        }
+
+        .org-stage-children {
+          padding-top: 14px;
+        }
+
+        .org-stage-children::before {
+          height: 14px;
+        }
+
+        .org-team-card,
+        .org-division-card,
+        .org-root-card {
+          width: min(100%, 100%);
         }
       }
     </style>
@@ -1001,7 +1071,7 @@ function buildHtml(payload) {
           <div class="panel-head">
             <div>
               <h2>조직도</h2>
-              <p>팀명과 팀장을 중심으로 보여주고, 카드 hover 시 직속 팀원을 확인</p>
+              <p>검은 연결선으로 조직 레벨을 표시하고, 팀 카드는 hover 시 직속 팀원 목록을 표시</p>
             </div>
           </div>
           <div id="org-tree" class="org-chart-shell"></div>
@@ -1024,6 +1094,7 @@ function buildHtml(payload) {
                   <th>근무</th>
                   <th>휴직</th>
                   <th>리더</th>
+                  <th>특이사항</th>
                 </tr>
               </thead>
               <tbody id="team-summary"></tbody>
@@ -1052,6 +1123,7 @@ function buildHtml(payload) {
                   <th>상태</th>
                   <th>역할</th>
                   <th>고용 형태</th>
+                  <th>특이사항</th>
                   <th>메모</th>
                 </tr>
               </thead>
@@ -1231,15 +1303,25 @@ function buildHtml(payload) {
           const children = node.children.map((child) => decorate(child, depth + 1));
           const directActive = node.directMembers.length;
           const directLeave = node.directMembers.filter((member) => member.onLeave).length;
+          const directTerminationDay = node.directMembers.filter((member) => member.isTerminationDay).length;
           const directWorking = directActive - directLeave;
           const subtreeActive = directActive + children.reduce((sum, child) => sum + child.stats.subtreeActive, 0);
           const subtreeLeave = directLeave + children.reduce((sum, child) => sum + child.stats.subtreeLeave, 0);
+          const subtreeTerminationDay =
+            directTerminationDay + children.reduce((sum, child) => sum + child.stats.subtreeTerminationDay, 0);
           const subtreeWorking = directWorking + children.reduce((sum, child) => sum + child.stats.subtreeWorking, 0);
           const leader = (node.roles || [])
             .slice()
             .sort((left, right) => (ROLE_ORDER[left.role_code] ?? 99) - (ROLE_ORDER[right.role_code] ?? 99))[0];
           const leaderName = leader ? employeeMap.get(leader.employee_id)?.name || leader.employee_id : "공석";
           const leaderRole = leader ? ROLE_LABELS[leader.role_code] || leader.role_code : "공석";
+          const alerts = [];
+          if (leaderName === "공석") {
+            alerts.push("리더 공석");
+          }
+          if (subtreeTerminationDay > 0) {
+            alerts.push(\`당일 퇴사 \${subtreeTerminationDay}명\`);
+          }
 
           return {
             ...node,
@@ -1248,13 +1330,16 @@ function buildHtml(payload) {
             leaderEmployeeId: leader ? leader.employee_id : "",
             leaderName,
             leaderRole,
+            alerts,
             stats: {
               directActive,
               directWorking,
               directLeave,
+              directTerminationDay,
               subtreeActive,
               subtreeWorking,
               subtreeLeave,
+              subtreeTerminationDay,
             },
           };
         }
@@ -1286,6 +1371,12 @@ function buildHtml(payload) {
               isTerminationDay: employment?.employment_end === targetDate,
               roleText: roleRows.map((row) => ROLE_LABELS[row.role_code] || row.role_code).join(", ") || "팀원",
               employmentType: employee?.employment_type || "",
+              specialText: [
+                employment?.employment_end === targetDate ? "기준일 당일 퇴사" : "",
+                leaveByEmployee.has(employeeId) ? "휴직 중" : "",
+              ]
+                .filter(Boolean)
+                .join(" / "),
               note: employee?.status_note || "",
             };
           })
@@ -1346,14 +1437,85 @@ function buildHtml(payload) {
         if (nodes.length === 0) {
           return '<p class="empty">선택한 날짜에 유효한 조직 구조가 없습니다.</p>';
         }
+        const companyRoot = nodes.find((node) => node.teamType === "COMPANY") || null;
+
+        if (!companyRoot) {
+          return \`
+            <div class="org-chart">
+              <div class="org-stage-stack">\${nodes.map(renderStageSection).join("")}</div>
+            </div>
+          \`;
+        }
+
+        const childStages = companyRoot.children.map(renderStageSection).join("");
+
         return \`
           <div class="org-chart">
-            \${nodes.map(renderTreeNode).join("")}
+            <section class="org-root-stage \${companyRoot.children.length ? "has-children" : ""}">
+              \${renderOrgCard(companyRoot, { interactive: false, className: "org-root-card" })}
+            </section>
+            \${childStages ? \`<div class="org-stage-stack">\${childStages}</div>\` : ""}
           </div>
         \`;
       }
 
-      function renderTreeNode(node) {
+      function renderStageSection(node) {
+        const interactive = node.teamType === "TEAM";
+        return \`
+          <section class="org-stage">
+            <div class="org-stage-head">
+              \${renderOrgCard(node, { interactive, className: resolveOrgCardClass(node) })}
+            </div>
+            \${renderStageChildren(node.children)}
+          </section>
+        \`;
+      }
+
+      function renderStageChildren(children) {
+        if (children.length === 0) {
+          return "";
+        }
+
+        const rowClasses = ["org-stage-row"];
+        if (children.length === 1) {
+          rowClasses.push("single");
+        }
+
+        return \`
+          <div class="org-stage-children">
+            <div class="\${rowClasses.join(" ")}" style="--org-columns:\${children.length}">
+              \${children.map((child) => \`<div class="org-stage-slot">\${renderStageNode(child)}</div>\`).join("")}
+            </div>
+          </div>
+        \`;
+      }
+
+      function renderStageNode(node) {
+        const interactive = node.teamType === "TEAM";
+        return \`
+          <div class="org-node-cluster \${node.children.length ? "has-children" : ""}">
+            \${renderOrgCard(node, {
+              interactive,
+              className: resolveOrgCardClass(node),
+            })}
+            \${renderStageChildren(node.children)}
+          </div>
+        \`;
+      }
+
+      function resolveOrgCardClass(node) {
+        if (node.teamType === "COMPANY") {
+          return "org-root-card";
+        }
+        if (node.teamType === "DIVISION") {
+          return "org-division-card";
+        }
+        return "org-team-card";
+      }
+
+      function renderOrgCard(node, options = {}) {
+        const interactive = Boolean(options.interactive);
+        const className = options.className || "";
         const teamMembers = node.directMembers.filter((member) => member.employeeId !== node.leaderEmployeeId);
         const leaderInline = node.leaderName === "공석" ? "공석" : \`\${node.leaderName} · \${node.leaderRole}\`;
         const membersMarkup = teamMembers.length
@@ -1378,46 +1540,47 @@ function buildHtml(payload) {
               })
               .join("")
           : '<div class="org-member-empty">직속 팀원이 없습니다.</div>';
-        const children = node.children.length
-          ? \`<div class="org-children">\${node.children.map(renderTreeNode).join("")}</div>\`
+        const popover = interactive
+          ? \`
+              <div class="org-popover" role="note" aria-hidden="true">
+                <div class="org-popover-head">
+                  <div class="org-popover-title">\${escapeHtml(node.teamName)}</div>
+                  <div class="org-popover-sub">직속 \${node.stats.directActive}명</div>
+                </div>
+                <div class="org-popover-section">
+                  <div class="org-popover-label">Leader</div>
+                  <div class="org-member-item">
+                    <span class="org-member-name">\${escapeHtml(leaderInline)}</span>
+                    <span class="org-member-note">조직 리더</span>
+                  </div>
+                </div>
+                <div class="org-popover-section">
+                  <div class="org-popover-label">Members</div>
+                  <div class="org-member-list">\${membersMarkup}</div>
+                </div>
+              </div>
+            \`
           : "";
+        const cardClasses = ["org-card", interactive ? "interactive" : "static", className].filter(Boolean).join(" ");
+        const tabIndex = interactive ? ' tabindex="0"' : "";
 
         return \`
-          <section class="org-group depth-\${node.depth} \${node.children.length ? "has-children" : ""}">
-            <div class="org-card-anchor">
-              <article class="org-card" tabindex="0" aria-label="\${escapeHtml(node.teamName)} 조직 카드">
-                <div class="org-card-band"></div>
-                <div class="org-card-type">\${escapeHtml(TEAM_TYPE_LABELS[node.teamType] || node.teamType)}</div>
-                <h3 class="org-card-title">\${escapeHtml(node.teamName)}</h3>
-                <div class="org-card-leader">
-                  <span class="org-card-leader-name">\${escapeHtml(node.leaderName)}</span>
-                  <span class="org-card-role">\${escapeHtml(node.leaderName === "공석" ? "" : node.leaderRole)}</span>
-                </div>
-                <div class="org-card-meta">
-                  <span class="org-chip">근무 \${node.stats.subtreeWorking}</span>
-                  <span class="org-chip">휴직 \${node.stats.subtreeLeave}</span>
-                </div>
-                <div class="org-popover" role="note" aria-hidden="true">
-                  <div class="org-popover-head">
-                    <div class="org-popover-title">\${escapeHtml(node.teamName)}</div>
-                    <div class="org-popover-sub">직속 \${node.stats.directActive}명</div>
-                  </div>
-                  <div class="org-popover-section">
-                    <div class="org-popover-label">Leader</div>
-                    <div class="org-member-item">
-                      <span class="org-member-name">\${escapeHtml(leaderInline)}</span>
-                      <span class="org-member-note">\${escapeHtml(node.teamType === "COMPANY" ? "최상위 조직" : "조직 리더")}</span>
-                    </div>
-                  </div>
-                  <div class="org-popover-section">
-                    <div class="org-popover-label">Members</div>
-                    <div class="org-member-list">\${membersMarkup}</div>
-                  </div>
-                </div>
-              </article>
-            </div>
-            \${children}
-          </section>
+          <div class="org-card-anchor">
+            <article class="\${cardClasses}"\${tabIndex} aria-label="\${escapeHtml(node.teamName)} 조직 카드">
+              <div class="org-card-band"></div>
+              <div class="org-card-type">\${escapeHtml(TEAM_TYPE_LABELS[node.teamType] || node.teamType)}</div>
+              <h3 class="org-card-title">\${escapeHtml(node.teamName)}</h3>
+              <div class="org-card-leader">
+                <span class="org-card-leader-name">\${escapeHtml(node.leaderName)}</span>
+                <span class="org-card-role">\${escapeHtml(node.leaderName === "공석" ? "" : node.leaderRole)}</span>
+              </div>
+              <div class="org-card-meta">
+                <span class="org-chip">근무 \${node.stats.subtreeWorking}</span>
+                <span class="org-chip">휴직 \${node.stats.subtreeLeave}</span>
+              </div>
+              \${popover}
+            </article>
+          </div>
         \`;
       }
 
@@ -1432,6 +1595,7 @@ function buildHtml(payload) {
                 <td>\${team.stats.subtreeWorking}</td>
                 <td>\${team.stats.subtreeLeave}</td>
                 <td>\${escapeHtml(team.leaderName)}</td>
+                <td>\${escapeHtml(team.alerts.join(" / ") || "-")}</td>
               </tr>
             \`,
           )
@@ -1450,6 +1614,7 @@ function buildHtml(payload) {
                 <td><span class="status-pill \${statusClass}">\${escapeHtml(statusLabel)}</span></td>
                 <td>\${escapeHtml(employee.roleText || "-")}</td>
                 <td>\${escapeHtml(employee.employmentType || "-")}</td>
+                <td>\${escapeHtml(employee.specialText || "-")}</td>
                 <td>\${escapeHtml(employee.note || "-")}</td>
               </tr>
             \`;
@@ -1470,6 +1635,7 @@ function buildHtml(payload) {
             employee.teamName,
             employee.roleText,
             employee.employmentType,
+            employee.specialText,
             employee.note,
           ]
             .filter(Boolean)
