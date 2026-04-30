@@ -558,17 +558,27 @@ function buildHtml(payload) {
 
       .org-chart-shell {
         padding-bottom: 8px;
+        overflow: visible;
       }
 
       .org-chart {
         display: grid;
         gap: 24px;
+        overflow: visible;
       }
 
       .org-group {
         position: relative;
         display: grid;
         justify-items: center;
+        z-index: 0;
+        isolation: isolate;
+        overflow: visible;
+      }
+
+      .org-group:hover,
+      .org-group:focus-within {
+        z-index: 80;
       }
 
       .org-group.depth-0 {
@@ -580,6 +590,7 @@ function buildHtml(payload) {
         display: flex;
         justify-content: center;
         width: 100%;
+        overflow: visible;
       }
 
       .org-group.has-children > .org-card-anchor::after {
@@ -768,6 +779,7 @@ function buildHtml(payload) {
         pointer-events: none;
         transform: translate(-50%, 8px);
         transition: opacity 150ms ease, transform 150ms ease;
+        overflow: visible;
       }
 
       .org-card:hover .org-popover,
