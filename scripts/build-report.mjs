@@ -588,16 +588,6 @@ function buildHtml(payload) {
         overflow: visible;
       }
 
-      .org-division-board::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 52px;
-        right: 52px;
-        height: 2px;
-        background: #111111;
-      }
-
       .org-division-grid {
         display: grid;
         gap: 20px 18px;
@@ -624,6 +614,28 @@ function buildHtml(payload) {
         height: 46px;
         background: #111111;
         transform: translateX(-50%);
+      }
+
+      .org-division-column::after {
+        content: "";
+        position: absolute;
+        top: -24px;
+        left: -9px;
+        right: -9px;
+        height: 2px;
+        background: #111111;
+      }
+
+      .org-division-column:first-child::after {
+        left: 50%;
+      }
+
+      .org-division-column:last-child::after {
+        right: 50%;
+      }
+
+      .org-division-column:only-child::after {
+        display: none;
       }
 
       .org-division-column:hover,
@@ -675,21 +687,11 @@ function buildHtml(payload) {
       }
 
       .org-team-children {
-        margin-top: 14px;
+        margin-top: 0;
         padding-left: 28px;
       }
 
       .org-team-stack::before {
-        content: "";
-        position: absolute;
-        top: 26px;
-        bottom: 68px;
-        left: 12px;
-        width: 2px;
-        background: #111111;
-      }
-
-      .org-team-stack::after {
         content: "";
         position: absolute;
         top: 26px;
@@ -699,20 +701,10 @@ function buildHtml(payload) {
         background: #111111;
       }
 
-      .org-team-children::before {
-        content: "";
-        position: absolute;
-        top: -14px;
-        bottom: 68px;
-        left: 12px;
-        width: 2px;
-        background: #111111;
-      }
-
       .org-team-branch {
         position: relative;
         display: grid;
-        gap: 12px;
+        gap: 14px;
         overflow: visible;
       }
 
@@ -724,6 +716,29 @@ function buildHtml(payload) {
         width: 16px;
         height: 2px;
         background: #111111;
+      }
+
+      .org-team-branch::after {
+        content: "";
+        position: absolute;
+        left: -16px;
+        top: -14px;
+        bottom: 0;
+        width: 2px;
+        background: #111111;
+      }
+
+      .org-team-stack > .org-team-branch:first-child::after {
+        top: 0;
+      }
+
+      .org-team-children > .org-team-branch:first-child::after {
+        top: -14px;
+      }
+
+      .org-team-stack > .org-team-branch:last-child::after,
+      .org-team-children > .org-team-branch:last-child::after {
+        bottom: calc(100% - 28px);
       }
 
       .org-card-anchor {
@@ -1034,11 +1049,6 @@ function buildHtml(payload) {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
-        .org-division-board::before {
-          left: 34px;
-          right: 34px;
-        }
-
         .org-division-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
@@ -1065,8 +1075,8 @@ function buildHtml(payload) {
         }
 
         .org-root-stage.has-children::after,
-        .org-division-board::before,
-        .org-division-column::before {
+        .org-division-column::before,
+        .org-division-column::after {
           display: none;
         }
 
