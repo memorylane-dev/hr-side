@@ -664,28 +664,27 @@ function buildHtml(payload) {
         position: relative;
         width: 100%;
         display: grid;
-        gap: 12px;
+        gap: 14px;
         overflow: visible;
       }
 
       .org-team-stack {
-        margin-top: 8px;
-        padding-top: 18px;
+        margin-top: 0;
+        padding-top: 26px;
         padding-left: 28px;
       }
 
       .org-team-children {
-        margin-top: 2px;
-        padding-left: 22px;
+        margin-top: 14px;
+        padding-left: 28px;
       }
 
-      .org-team-stack::before,
-      .org-team-children::before {
+      .org-team-stack::before {
         content: "";
         position: absolute;
-        top: 8px;
-        bottom: 20px;
-        left: 10px;
+        top: 26px;
+        bottom: 68px;
+        left: 12px;
         width: 2px;
         background: #111111;
       }
@@ -693,10 +692,20 @@ function buildHtml(payload) {
       .org-team-stack::after {
         content: "";
         position: absolute;
-        top: 18px;
-        left: 10px;
+        top: 26px;
+        left: 12px;
         right: 50%;
         height: 2px;
+        background: #111111;
+      }
+
+      .org-team-children::before {
+        content: "";
+        position: absolute;
+        top: -14px;
+        bottom: 68px;
+        left: 12px;
+        width: 2px;
         background: #111111;
       }
 
@@ -710,8 +719,8 @@ function buildHtml(payload) {
       .org-team-branch::before {
         content: "";
         position: absolute;
-        left: 10px;
-        top: 21px;
+        left: -16px;
+        top: 28px;
         width: 16px;
         height: 2px;
         background: #111111;
@@ -727,7 +736,7 @@ function buildHtml(payload) {
 
       .org-team-branch > .org-card-anchor {
         justify-content: flex-start;
-        padding-left: 26px;
+        padding-left: 0;
       }
 
       .org-card {
