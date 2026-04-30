@@ -58,6 +58,8 @@
   - 기본 데이터의 의도, 포함된 예외 케이스, 기준일별 기대 결과
 - `data/current/*.csv`
   - clone 직후 바로 수정 가능한 기본 CSV 데이터
+- `scripts/generate-sample-data.mjs`
+  - 4개 본부, 20개 팀, 200명 규모의 기본 샘플 데이터 재생성 스크립트
 
 ## Source Of Truth
 
@@ -87,6 +89,7 @@
 - 퇴사일 당일도 재직으로 계산
 - 팀장 임명/해제는 `Role_Assignments`에서 관리
 - 조직 트리는 `Team_Structure_History`에서 관리
+- 기본 샘플 역할 체계는 `대표 / 부대표 / 전무 / 상무 / 이사 / 팀장 / 팀원`
 
 ## 아직 미정인 핵심 항목
 
@@ -138,4 +141,4 @@
 
 - 원격 저장소: `origin = https://github.com/memorylane-dev/hr-side.git`
 - 기본 브랜치: `main`
-- 현재는 문서, CSV 템플릿, 기본 데이터, 로컬 HTML 생성기가 있는 초기 상태
+- 현재는 문서, CSV 템플릿, 4개 본부 / 20개 팀 / 200명 샘플 데이터, 로컬 HTML 생성기가 있는 초기 상태

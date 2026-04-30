@@ -153,8 +153,11 @@ clone 직후 수정할 기본 데이터는 아래 경로에 둔다.
 
 ### 4.4 `role_code`
 
+- `CEO`
+- `VICE_CEO`
+- `EVP`
+- `SVP`
 - `TEAM_LEAD`
-- `HEAD`
 - `DIRECTOR`
 
 ### 4.5 `scope_type`
@@ -171,6 +174,17 @@ clone 직후 수정할 기본 데이터는 아래 경로에 둔다.
 4. 종료되지 않은 기간은 종료일을 비워 둔다
 5. `Team_Assignments.is_primary = TRUE`는 같은 시점에 직원당 1개만 허용한다
 6. `Role_Assignments.role_code = TEAM_LEAD`는 같은 시점에 팀당 1개만 허용한다
+
+샘플 데이터의 기본 역할 체계는 아래를 사용한다.
+
+- `CEO` = 대표
+- `VICE_CEO` = 부대표
+- `EVP` = 전무
+- `SVP` = 상무
+- `DIRECTOR` = 이사
+- `TEAM_LEAD` = 팀장
+
+별도 `Role_Assignments`가 없는 일반 구성원은 리포트에서 `팀원`으로 표시한다.
 
 ## 6. 관련 문서
 

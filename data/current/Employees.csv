@@ -1,16 +1,201 @@
 employee_id,name,email,employment_type,initial_hire_date,final_termination_date,status_note
-EMP-0001,강다은,daeun.kang@example.com,FULL_TIME,2017-01-02,,CEO 역할 겸임
-EMP-0002,박현우,hyunwoo.park@example.com,FULL_TIME,2019-03-04,,플랫폼팀 전 팀장
-EMP-0003,이서준,seojun.lee@example.com,FULL_TIME,2020-07-15,,플랫폼팀 현 팀장
-EMP-0004,최유진,yujin.choi@example.com,FULL_TIME,2021-06-21,,데이터 분석가
-EMP-0005,정하늘,haneul.jung@example.com,FULL_TIME,2022-02-07,,2024년 병가 사용
-EMP-0006,김소라,sora.kim@example.com,FULL_TIME,2020-04-13,,휴직 중 재무팀 이동
-EMP-0007,오지훈,jihun.oh@example.com,FULL_TIME,2018-11-05,,인사팀 팀장
-EMP-0008,한예린,yerin.han@example.com,FULL_TIME,2018-05-07,,퇴사 후 재입사
-EMP-0009,윤태호,taeho.yoon@example.com,FULL_TIME,2023-09-01,,재무팀 팀장
-EMP-0010,문지아,jia.moon@example.com,FULL_TIME,2021-01-18,2026-04-30,기준일 당일 퇴사
-EMP-0011,배지민,jimin.bae@example.com,FULL_TIME,2016-08-22,2026-02-15,데이터팀 전 팀장
-EMP-0012,서나래,narae.seo@example.com,FULL_TIME,2026-03-10,,2026년 신규 입사
-EMP-0013,장도윤,doyoon.jang@example.com,FULL_TIME,2015-09-01,,기술조직 개편 후 Product본부장
-EMP-0014,임세진,sejin.lim@example.com,FULL_TIME,2017-04-17,,경영지원본부장
-EMP-0015,남지훈,jihun.nam@example.com,CONTRACT,2025-06-02,,플랫폼팀 계약직
+EMP-0001,윤민석,emp-0001@example.com,FULL_TIME,2015-01-05,,대표
+EMP-0002,김서아,emp-0002@example.com,FULL_TIME,2016-04-11,,대표실 Chief of Staff
+EMP-0003,박주안,emp-0003@example.com,FULL_TIME,2018-07-02,,Executive Assistant
+EMP-0004,이도현,emp-0004@example.com,FULL_TIME,2021-05-17,,대표실 전략 프로젝트 담당
+EMP-0005,신서영,emp-0005@example.com,FULL_TIME,2016-03-07,,Product본부 총괄
+EMP-0009,송이준,emp-0009@example.com,FULL_TIME,2018-02-12,,본부 이사
+EMP-0010,임다솔,emp-0010@example.com,FULL_TIME,2018-08-20,,본부 이사
+EMP-0017,정유빈,emp-0017@example.com,FULL_TIME,2022-05-16,,본부 coordinator
+EMP-0006,김도윤,emp-0006@example.com,FULL_TIME,2015-11-02,,Platform본부 총괄
+EMP-0011,오세린,emp-0011@example.com,FULL_TIME,2019-04-08,,본부 이사
+EMP-0012,문태경,emp-0012@example.com,FULL_TIME,2020-01-13,,본부 이사
+EMP-0018,서주아,emp-0018@example.com,FULL_TIME,2023-03-06,,본부 coordinator
+EMP-0007,박재윤,emp-0007@example.com,FULL_TIME,2017-06-19,,Growth본부 총괄
+EMP-0013,장서하,emp-0013@example.com,FULL_TIME,2019-09-30,,본부 이사
+EMP-0014,최민서,emp-0014@example.com,FULL_TIME,2021-02-15,,본부 이사
+EMP-0019,한예빈,emp-0019@example.com,FULL_TIME,2023-09-04,,본부 coordinator
+EMP-0008,윤해준,emp-0008@example.com,FULL_TIME,2016-10-10,,Corporate본부 총괄
+EMP-0015,강로은,emp-0015@example.com,FULL_TIME,2018-12-03,,본부 이사
+EMP-0016,이하진,emp-0016@example.com,FULL_TIME,2020-06-22,,본부 이사
+EMP-0020,배지원,emp-0020@example.com,FULL_TIME,2024-02-19,,본부 coordinator
+EMP-0021,한지후,emp-0021@example.com,FULL_TIME,2017-01-01,,프로덕트기획팀 팀장
+EMP-0022,구성원022,emp-0022@example.com,FULL_TIME,2018-03-04,,
+EMP-0023,구성원023,emp-0023@example.com,FULL_TIME,2019-05-07,,
+EMP-0024,구성원024,emp-0024@example.com,FULL_TIME,2020-07-10,,
+EMP-0025,구성원025,emp-0025@example.com,FULL_TIME,2021-09-13,,
+EMP-0026,구성원026,emp-0026@example.com,FULL_TIME,2022-11-16,,
+EMP-0027,구성원027,emp-0027@example.com,FULL_TIME,2023-01-19,,
+EMP-0028,구성원028,emp-0028@example.com,FULL_TIME,2024-03-22,,
+EMP-0029,구성원029,emp-0029@example.com,FULL_TIME,2025-05-25,,
+EMP-0030,박나연,emp-0030@example.com,FULL_TIME,2020-02-06,,프로덕트디자인팀 팀장
+EMP-0031,구성원031,emp-0031@example.com,FULL_TIME,2021-04-09,,
+EMP-0032,구성원032,emp-0032@example.com,FULL_TIME,2022-06-12,,
+EMP-0033,구성원033,emp-0033@example.com,FULL_TIME,2023-08-15,,
+EMP-0034,구성원034,emp-0034@example.com,FULL_TIME,2024-10-18,,
+EMP-0035,구성원035,emp-0035@example.com,CONTRACT,2025-12-21,,
+EMP-0036,구성원036,emp-0036@example.com,FULL_TIME,2017-02-24,,
+EMP-0037,구성원037,emp-0037@example.com,FULL_TIME,2018-04-01,,
+EMP-0038,구성원038,emp-0038@example.com,FULL_TIME,2019-06-04,,
+EMP-0039,송도경,emp-0039@example.com,FULL_TIME,2023-03-11,,그로스마케팅팀 팀장
+EMP-0040,구성원040,emp-0040@example.com,FULL_TIME,2024-05-14,,
+EMP-0041,구성원041,emp-0041@example.com,FULL_TIME,2025-07-17,,
+EMP-0042,구성원042,emp-0042@example.com,FULL_TIME,2017-09-20,,
+EMP-0043,구성원043,emp-0043@example.com,FULL_TIME,2018-11-23,,
+EMP-0044,구성원044,emp-0044@example.com,FULL_TIME,2019-01-26,,
+EMP-0045,구성원045,emp-0045@example.com,FULL_TIME,2020-03-03,,
+EMP-0046,구성원046,emp-0046@example.com,FULL_TIME,2021-05-06,,
+EMP-0047,구성원047,emp-0047@example.com,FULL_TIME,2022-07-09,,
+EMP-0048,이주원,emp-0048@example.com,FULL_TIME,2017-04-16,,콘텐츠전략팀 팀장
+EMP-0049,구성원049,emp-0049@example.com,FULL_TIME,2018-06-19,,
+EMP-0050,구성원050,emp-0050@example.com,FULL_TIME,2019-08-22,,
+EMP-0051,구성원051,emp-0051@example.com,FULL_TIME,2020-10-25,,
+EMP-0052,구성원052,emp-0052@example.com,FULL_TIME,2021-12-02,,
+EMP-0053,구성원053,emp-0053@example.com,FULL_TIME,2022-02-05,,
+EMP-0054,구성원054,emp-0054@example.com,FULL_TIME,2023-04-08,,
+EMP-0055,구성원055,emp-0055@example.com,FULL_TIME,2024-06-11,,
+EMP-0056,구성원056,emp-0056@example.com,FULL_TIME,2025-08-14,,
+EMP-0057,최수안,emp-0057@example.com,FULL_TIME,2020-05-21,2026-02-15,퇴사 후 팀장 공석
+EMP-0058,구성원058,emp-0058@example.com,FULL_TIME,2021-07-24,,
+EMP-0059,구성원059,emp-0059@example.com,FULL_TIME,2022-09-01,,
+EMP-0060,구성원060,emp-0060@example.com,FULL_TIME,2023-11-04,,
+EMP-0061,구성원061,emp-0061@example.com,FULL_TIME,2024-01-07,,
+EMP-0062,구성원062,emp-0062@example.com,FULL_TIME,2025-03-10,,
+EMP-0063,구성원063,emp-0063@example.com,FULL_TIME,2017-05-13,,
+EMP-0064,구성원064,emp-0064@example.com,FULL_TIME,2018-07-16,,
+EMP-0065,구성원065,emp-0065@example.com,FULL_TIME,2019-09-19,,
+EMP-0066,윤도윤,emp-0066@example.com,FULL_TIME,2023-06-26,,프론트엔드팀 팀장
+EMP-0067,홍채린,emp-0067@example.com,FULL_TIME,2024-08-03,,팀원에서 팀장 승진
+EMP-0068,구성원068,emp-0068@example.com,FULL_TIME,2025-10-06,,
+EMP-0069,구성원069,emp-0069@example.com,FULL_TIME,2017-12-09,,
+EMP-0070,구성원070,emp-0070@example.com,FULL_TIME,2018-02-12,,
+EMP-0071,구성원071,emp-0071@example.com,FULL_TIME,2019-04-15,,
+EMP-0072,구성원072,emp-0072@example.com,CONTRACT,2020-06-18,,
+EMP-0073,구성원073,emp-0073@example.com,FULL_TIME,2021-08-21,,
+EMP-0074,구성원074,emp-0074@example.com,FULL_TIME,2022-10-24,,
+EMP-0075,문시우,emp-0075@example.com,FULL_TIME,2017-07-05,,백엔드플랫폼팀 팀장
+EMP-0076,구성원076,emp-0076@example.com,FULL_TIME,2018-09-08,,
+EMP-0077,구성원077,emp-0077@example.com,FULL_TIME,2019-11-11,,
+EMP-0078,구성원078,emp-0078@example.com,FULL_TIME,2020-01-14,,
+EMP-0079,구성원079,emp-0079@example.com,FULL_TIME,2021-03-17,,
+EMP-0080,구성원080,emp-0080@example.com,FULL_TIME,2022-05-20,,
+EMP-0081,구성원081,emp-0081@example.com,FULL_TIME,2023-07-23,,
+EMP-0082,구성원082,emp-0082@example.com,FULL_TIME,2024-09-26,,
+EMP-0083,구성원083,emp-0083@example.com,FULL_TIME,2026-06-14,,
+EMP-0084,정하율,emp-0084@example.com,FULL_TIME,2020-08-10,,데이터플랫폼팀 팀장
+EMP-0085,구성원085,emp-0085@example.com,FULL_TIME,2021-10-13,,
+EMP-0086,구성원086,emp-0086@example.com,FULL_TIME,2022-12-16,,
+EMP-0087,구성원087,emp-0087@example.com,FULL_TIME,2023-02-19,,
+EMP-0088,구성원088,emp-0088@example.com,FULL_TIME,2024-04-22,,
+EMP-0089,구성원089,emp-0089@example.com,FULL_TIME,2025-06-25,,
+EMP-0090,구성원090,emp-0090@example.com,FULL_TIME,2017-08-02,,
+EMP-0091,구성원091,emp-0091@example.com,FULL_TIME,2018-10-05,,
+EMP-0092,구성원092,emp-0092@example.com,FULL_TIME,2019-12-08,,
+EMP-0093,조민재,emp-0093@example.com,FULL_TIME,2023-09-15,,인프라팀 팀장
+EMP-0094,구성원094,emp-0094@example.com,FULL_TIME,2024-11-18,,
+EMP-0095,구성원095,emp-0095@example.com,FULL_TIME,2025-01-21,,
+EMP-0096,구성원096,emp-0096@example.com,FULL_TIME,2017-03-24,,
+EMP-0097,구성원097,emp-0097@example.com,FULL_TIME,2018-05-01,,
+EMP-0098,구성원098,emp-0098@example.com,FULL_TIME,2019-07-04,,
+EMP-0099,구성원099,emp-0099@example.com,FULL_TIME,2020-09-07,,
+EMP-0100,구성원100,emp-0100@example.com,FULL_TIME,2021-11-10,,
+EMP-0101,구성원101,emp-0101@example.com,FULL_TIME,2022-01-13,,
+EMP-0102,임서진,emp-0102@example.com,FULL_TIME,2017-10-20,,보안팀 팀장
+EMP-0103,구성원103,emp-0103@example.com,FULL_TIME,2018-12-23,,
+EMP-0104,구성원104,emp-0104@example.com,FULL_TIME,2019-02-26,,
+EMP-0105,구성원105,emp-0105@example.com,FULL_TIME,2020-04-03,,
+EMP-0106,구성원106,emp-0106@example.com,FULL_TIME,2021-06-06,,
+EMP-0107,구성원107,emp-0107@example.com,FULL_TIME,2022-08-09,,
+EMP-0108,구성원108,emp-0108@example.com,CONTRACT,2023-10-12,,
+EMP-0109,구성원109,emp-0109@example.com,FULL_TIME,2024-12-15,,
+EMP-0110,구성원110,emp-0110@example.com,FULL_TIME,2025-02-18,,
+EMP-0111,배도윤,emp-0111@example.com,FULL_TIME,2020-11-25,,영업전략팀 팀장
+EMP-0112,구성원112,emp-0112@example.com,FULL_TIME,2021-01-02,,
+EMP-0113,구성원113,emp-0113@example.com,FULL_TIME,2022-03-05,,
+EMP-0114,구성원114,emp-0114@example.com,FULL_TIME,2023-05-08,,
+EMP-0115,구성원115,emp-0115@example.com,FULL_TIME,2024-07-11,,
+EMP-0116,구성원116,emp-0116@example.com,FULL_TIME,2025-09-14,,
+EMP-0117,구성원117,emp-0117@example.com,FULL_TIME,2017-11-17,,
+EMP-0118,구성원118,emp-0118@example.com,FULL_TIME,2026-09-18,,
+EMP-0119,구성원119,emp-0119@example.com,FULL_TIME,2019-03-23,,
+EMP-0120,신유림,emp-0120@example.com,FULL_TIME,2023-12-04,,고객성공팀 팀장
+EMP-0121,구성원121,emp-0121@example.com,FULL_TIME,2024-02-07,,
+EMP-0122,구성원122,emp-0122@example.com,FULL_TIME,2025-04-10,,
+EMP-0123,구성원123,emp-0123@example.com,FULL_TIME,2017-06-13,,
+EMP-0124,구성원124,emp-0124@example.com,FULL_TIME,2019-04-15,,퇴사 후 재입사
+EMP-0125,구성원125,emp-0125@example.com,FULL_TIME,2019-10-19,,
+EMP-0126,구성원126,emp-0126@example.com,FULL_TIME,2020-12-22,,
+EMP-0127,구성원127,emp-0127@example.com,FULL_TIME,2021-02-25,,
+EMP-0128,구성원128,emp-0128@example.com,FULL_TIME,2022-04-02,,
+EMP-0129,권서우,emp-0129@example.com,FULL_TIME,2017-01-09,,파트너십팀 팀장
+EMP-0130,구성원130,emp-0130@example.com,FULL_TIME,2018-03-12,,
+EMP-0131,구성원131,emp-0131@example.com,FULL_TIME,2019-05-15,,
+EMP-0132,구성원132,emp-0132@example.com,FULL_TIME,2020-07-18,,
+EMP-0133,구성원133,emp-0133@example.com,FULL_TIME,2021-09-21,,
+EMP-0134,구성원134,emp-0134@example.com,FULL_TIME,2022-11-24,,
+EMP-0135,구성원135,emp-0135@example.com,FULL_TIME,2023-01-01,,
+EMP-0136,구성원136,emp-0136@example.com,CONTRACT,2024-03-04,,
+EMP-0137,구성원137,emp-0137@example.com,FULL_TIME,2025-05-07,,
+EMP-0138,한도윤,emp-0138@example.com,FULL_TIME,2020-02-14,,지역운영팀 팀장
+EMP-0139,구성원139,emp-0139@example.com,FULL_TIME,2021-04-17,,
+EMP-0140,구성원140,emp-0140@example.com,FULL_TIME,2022-06-20,,
+EMP-0141,구성원141,emp-0141@example.com,FULL_TIME,2023-08-23,,
+EMP-0142,구성원142,emp-0142@example.com,FULL_TIME,2024-10-26,,
+EMP-0143,구성원143,emp-0143@example.com,FULL_TIME,2025-12-03,,
+EMP-0144,구성원144,emp-0144@example.com,FULL_TIME,2017-02-06,,
+EMP-0145,구성원145,emp-0145@example.com,FULL_TIME,2018-04-09,2026-01-20,기준일 이전 퇴사
+EMP-0146,구성원146,emp-0146@example.com,FULL_TIME,2019-06-12,,
+EMP-0147,오하린,emp-0147@example.com,FULL_TIME,2023-03-19,,CRM운영팀 팀장
+EMP-0148,구성원148,emp-0148@example.com,FULL_TIME,2024-05-22,,
+EMP-0149,구성원149,emp-0149@example.com,FULL_TIME,2025-07-25,,
+EMP-0150,구성원150,emp-0150@example.com,FULL_TIME,2017-09-02,,
+EMP-0151,구성원151,emp-0151@example.com,FULL_TIME,2018-11-05,,
+EMP-0152,구성원152,emp-0152@example.com,FULL_TIME,2019-01-08,,
+EMP-0153,구성원153,emp-0153@example.com,FULL_TIME,2020-03-11,,
+EMP-0154,구성원154,emp-0154@example.com,FULL_TIME,2021-05-14,,
+EMP-0155,구성원155,emp-0155@example.com,FULL_TIME,2022-07-17,,
+EMP-0156,장나윤,emp-0156@example.com,FULL_TIME,2017-04-24,,인사팀 팀장
+EMP-0157,구성원157,emp-0157@example.com,FULL_TIME,2018-06-01,,
+EMP-0158,구성원158,emp-0158@example.com,FULL_TIME,2019-08-04,,
+EMP-0159,구성원159,emp-0159@example.com,FULL_TIME,2020-10-07,,
+EMP-0160,구성원160,emp-0160@example.com,FULL_TIME,2021-12-10,,휴직 중 팀 이동
+EMP-0161,구성원161,emp-0161@example.com,FULL_TIME,2022-02-13,,
+EMP-0162,구성원162,emp-0162@example.com,FULL_TIME,2023-04-16,,
+EMP-0163,구성원163,emp-0163@example.com,FULL_TIME,2024-06-19,,
+EMP-0164,구성원164,emp-0164@example.com,FULL_TIME,2025-08-22,,
+EMP-0165,서준영,emp-0165@example.com,FULL_TIME,2020-05-03,,재무팀 팀장
+EMP-0166,구성원166,emp-0166@example.com,FULL_TIME,2021-07-06,,
+EMP-0167,구성원167,emp-0167@example.com,FULL_TIME,2022-09-09,,
+EMP-0168,구성원168,emp-0168@example.com,FULL_TIME,2023-11-12,,
+EMP-0169,구성원169,emp-0169@example.com,FULL_TIME,2024-01-15,,
+EMP-0170,구성원170,emp-0170@example.com,FULL_TIME,2025-03-18,,
+EMP-0171,구성원171,emp-0171@example.com,FULL_TIME,2017-05-21,,
+EMP-0172,구성원172,emp-0172@example.com,FULL_TIME,2018-07-24,,
+EMP-0173,구성원173,emp-0173@example.com,FULL_TIME,2026-07-04,,
+EMP-0174,김세아,emp-0174@example.com,FULL_TIME,2023-06-08,,법무팀 팀장
+EMP-0175,구성원175,emp-0175@example.com,FULL_TIME,2024-08-11,,
+EMP-0176,구성원176,emp-0176@example.com,FULL_TIME,2025-10-14,,
+EMP-0177,구성원177,emp-0177@example.com,FULL_TIME,2017-12-17,,
+EMP-0178,구성원178,emp-0178@example.com,FULL_TIME,2018-02-20,,
+EMP-0179,구성원179,emp-0179@example.com,CONTRACT,2019-04-23,,
+EMP-0180,구성원180,emp-0180@example.com,FULL_TIME,2020-06-26,,
+EMP-0181,구성원181,emp-0181@example.com,FULL_TIME,2021-08-03,,
+EMP-0182,구성원182,emp-0182@example.com,FULL_TIME,2022-10-06,,
+EMP-0183,남주원,emp-0183@example.com,FULL_TIME,2017-07-13,,경영기획팀 팀장
+EMP-0184,구성원184,emp-0184@example.com,FULL_TIME,2018-09-16,,
+EMP-0185,구성원185,emp-0185@example.com,FULL_TIME,2019-11-19,,
+EMP-0186,구성원186,emp-0186@example.com,FULL_TIME,2020-01-22,,
+EMP-0187,구성원187,emp-0187@example.com,FULL_TIME,2021-03-25,,
+EMP-0188,구성원188,emp-0188@example.com,FULL_TIME,2022-05-02,,
+EMP-0189,구성원189,emp-0189@example.com,FULL_TIME,2023-07-05,,
+EMP-0190,구성원190,emp-0190@example.com,FULL_TIME,2024-09-08,,
+EMP-0191,구성원191,emp-0191@example.com,FULL_TIME,2025-11-11,,
+EMP-0192,유다온,emp-0192@example.com,FULL_TIME,2020-08-18,,IT지원팀 팀장
+EMP-0193,구성원193,emp-0193@example.com,FULL_TIME,2021-10-21,,
+EMP-0194,구성원194,emp-0194@example.com,FULL_TIME,2026-04-07,,
+EMP-0195,구성원195,emp-0195@example.com,FULL_TIME,2023-02-01,,
+EMP-0196,구성원196,emp-0196@example.com,FULL_TIME,2024-04-04,,
+EMP-0197,구성원197,emp-0197@example.com,FULL_TIME,2025-06-07,,
+EMP-0198,구성원198,emp-0198@example.com,CONTRACT,2017-08-10,,
+EMP-0199,구성원199,emp-0199@example.com,FULL_TIME,2018-10-13,,
+EMP-0200,구성원200,emp-0200@example.com,FULL_TIME,2019-12-16,2026-04-30,기준일 당일 퇴사

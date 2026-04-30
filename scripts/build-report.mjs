@@ -372,18 +372,18 @@ function buildHtml(payload) {
     <title>HR Snapshot Report</title>
     <style>
       :root {
-        --bg: #f4efe8;
-        --bg-accent: #ebe0cf;
-        --panel: rgba(255, 252, 246, 0.82);
-        --panel-border: rgba(70, 52, 38, 0.12);
-        --ink: #1f1712;
-        --muted: #67574a;
-        --brand: #8c4f2f;
-        --brand-soft: #d8b396;
-        --ok: #1d6b43;
-        --warn: #b0582b;
-        --shadow: 0 18px 44px rgba(60, 37, 23, 0.12);
-        --radius: 22px;
+        --bg: #fff7fa;
+        --bg-accent: #ffe2ed;
+        --panel: rgba(255, 255, 255, 0.94);
+        --panel-border: rgba(210, 7, 74, 0.12);
+        --ink: #1f1116;
+        --muted: #72515d;
+        --brand: #d2074a;
+        --brand-soft: #ffd5e4;
+        --ok: #9f1239;
+        --warn: #8f1231;
+        --shadow: 0 16px 36px rgba(210, 7, 74, 0.10);
+        --radius: 16px;
       }
 
       * {
@@ -396,9 +396,9 @@ function buildHtml(payload) {
         color: var(--ink);
         font-family: "IBM Plex Sans KR", "Pretendard", "Apple SD Gothic Neo", sans-serif;
         background:
-          radial-gradient(circle at top left, rgba(140, 79, 47, 0.18), transparent 34%),
-          radial-gradient(circle at bottom right, rgba(102, 146, 123, 0.16), transparent 28%),
-          linear-gradient(180deg, #f8f3eb 0%, var(--bg) 100%);
+          radial-gradient(circle at top left, rgba(210, 7, 74, 0.12), transparent 36%),
+          radial-gradient(circle at bottom right, rgba(255, 183, 208, 0.22), transparent 30%),
+          linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
       }
 
       .page {
@@ -482,7 +482,7 @@ function buildHtml(payload) {
       input[type="date"] {
         width: 100%;
         border: 1px solid rgba(31, 23, 18, 0.16);
-        border-radius: 14px;
+        border-radius: 12px;
         padding: 14px 16px;
         font: inherit;
         color: var(--ink);
@@ -556,79 +556,327 @@ function buildHtml(payload) {
         font-size: 14px;
       }
 
-      .tree {
+      .org-chart-shell {
+        padding-bottom: 8px;
+      }
+
+      .org-chart {
         display: grid;
-        gap: 14px;
+        gap: 24px;
       }
 
-      .tree-node {
-        border: 1px solid rgba(31, 23, 18, 0.1);
-        border-radius: 18px;
-        background: rgba(255, 255, 255, 0.72);
-        padding: 16px 18px;
+      .org-group {
+        position: relative;
+        display: grid;
+        justify-items: center;
       }
 
-      .tree-header {
+      .org-group.depth-0 {
+        width: 100%;
+      }
+
+      .org-card-anchor {
+        position: relative;
         display: flex;
-        flex-wrap: wrap;
-        gap: 10px 14px;
-        align-items: center;
+        justify-content: center;
+        width: 100%;
       }
 
-      .tree-name {
-        font-size: 22px;
+      .org-group.has-children > .org-card-anchor::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -18px;
+        width: 1px;
+        height: 18px;
+        background: rgba(210, 7, 74, 0.22);
+        transform: translateX(-50%);
       }
 
-      .tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
+      .org-children {
+        position: relative;
+        width: 100%;
+        margin-top: 18px;
+        padding-top: 24px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 18px 16px;
+      }
+
+      .org-children::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 1px;
+        height: 24px;
+        background: rgba(210, 7, 74, 0.22);
+        transform: translateX(-50%);
+      }
+
+      .org-children::after {
+        content: "";
+        position: absolute;
+        left: 28px;
+        right: 28px;
+        top: 0;
+        height: 1px;
+        background: rgba(210, 7, 74, 0.22);
+      }
+
+      .org-children > .org-group {
+        position: relative;
+        padding-top: 18px;
+      }
+
+      .org-children > .org-group::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        width: 1px;
+        height: 18px;
+        background: rgba(210, 7, 74, 0.22);
+        transform: translateX(-50%);
+      }
+
+      .org-card {
+        position: relative;
+        width: min(100%, 260px);
+        padding: 14px 16px 16px;
+        border-radius: 14px;
+        border: 1px solid rgba(210, 7, 74, 0.16);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 242, 247, 0.96)),
+          linear-gradient(135deg, rgba(210, 7, 74, 0.08), rgba(255, 213, 228, 0.30));
+        box-shadow: 0 16px 30px rgba(210, 7, 74, 0.10);
+        text-align: left;
+        transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+        outline: none;
+      }
+
+      .org-card:hover,
+      .org-card:focus-within,
+      .org-card:focus {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 36px rgba(210, 7, 74, 0.14);
+        border-color: rgba(210, 7, 74, 0.28);
+      }
+
+      .org-group.depth-0 > .org-card-anchor > .org-card {
+        min-width: 280px;
+        max-width: 320px;
+        padding: 18px 20px 18px;
+        background:
+          linear-gradient(180deg, rgba(210, 7, 74, 0.96), rgba(173, 5, 61, 0.98)),
+          linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+        color: #fff8fb;
+      }
+
+      .org-group.depth-0 > .org-card-anchor > .org-card .org-card-type,
+      .org-group.depth-0 > .org-card-anchor > .org-card .org-card-caption,
+      .org-group.depth-0 > .org-card-anchor > .org-card .org-card-meta,
+      .org-group.depth-0 > .org-card-anchor > .org-card .org-card-leader-label {
+        color: rgba(248, 244, 239, 0.78);
+      }
+
+      .org-group.depth-1 > .org-card-anchor > .org-card {
+        width: min(100%, 280px);
+      }
+
+      .org-group.depth-2 > .org-card-anchor > .org-card {
+        width: min(100%, 240px);
+      }
+
+      .org-card-band {
+        height: 10px;
+        width: 84px;
         border-radius: 999px;
-        padding: 5px 10px;
-        font-size: 12px;
-        font-weight: 700;
-        background: rgba(140, 79, 47, 0.1);
-        color: var(--brand);
+        background: linear-gradient(90deg, #d2074a, #ff6f9e);
+        margin-bottom: 12px;
       }
 
-      .tree-meta {
-        margin-top: 10px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
+      .org-card-type {
+        margin: 0;
         color: var(--muted);
-        font-size: 14px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
       }
 
-      .members {
+      .org-card-title {
+        margin-top: 7px;
+        font-size: 23px;
+        line-height: 1.08;
+      }
+
+      .org-card-leader-label {
         margin-top: 14px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
       }
 
-      .member {
-        border-radius: 999px;
-        padding: 7px 11px;
-        background: rgba(31, 23, 18, 0.06);
+      .org-card-leader {
+        margin-top: 4px;
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1.25;
+      }
+
+      .org-card-caption {
+        margin-top: 4px;
+        color: var(--muted);
         font-size: 13px;
       }
 
-      .member.leave {
-        background: rgba(176, 88, 43, 0.14);
-        color: var(--warn);
+      .org-card-meta {
+        margin-top: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 12px;
       }
 
-      .member.termination {
-        background: rgba(29, 107, 67, 0.14);
-        color: var(--ok);
+      .org-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 9px;
+        border-radius: 999px;
+        background: rgba(210, 7, 74, 0.08);
+        color: var(--brand);
+        font-weight: 700;
       }
 
-      .children {
-        margin-top: 14px;
-        margin-left: 18px;
+      .org-popover {
+        position: absolute;
+        z-index: 40;
+        top: calc(100% + 12px);
+        left: 50%;
+        width: 290px;
+        padding: 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(210, 7, 74, 0.18);
+        background: rgba(255, 255, 255, 0.99);
+        box-shadow: 0 20px 38px rgba(210, 7, 74, 0.16);
+        opacity: 0;
+        pointer-events: none;
+        transform: translate(-50%, 8px);
+        transition: opacity 150ms ease, transform 150ms ease;
+      }
+
+      .org-card:hover .org-popover,
+      .org-card:focus-within .org-popover,
+      .org-card:focus .org-popover {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translate(-50%, 0);
+      }
+
+      .org-popover::before {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        width: 14px;
+        height: 14px;
+        background: rgba(255, 255, 255, 0.99);
+        border-top: 1px solid rgba(210, 7, 74, 0.18);
+        border-left: 1px solid rgba(210, 7, 74, 0.18);
+        transform: translateX(-50%) rotate(45deg);
+      }
+
+      .org-popover-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: baseline;
+      }
+
+      .org-popover-title {
+        font-size: 15px;
+        font-weight: 700;
+      }
+
+      .org-popover-sub {
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .org-popover-section {
+        margin-top: 12px;
+      }
+
+      .org-popover-label {
+        margin-bottom: 6px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .org-member-list {
         display: grid;
-        gap: 12px;
+        gap: 7px;
+      }
+
+      .org-member-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 8px 10px;
+        border-radius: 10px;
+        background: rgba(31, 23, 18, 0.04);
+        font-size: 13px;
+      }
+
+      .org-member-name {
+        font-weight: 700;
+      }
+
+      .org-member-note {
+        color: var(--muted);
+        font-size: 12px;
+        text-align: right;
+      }
+
+      .org-member-empty {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .employee-search {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .employee-search label {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      input[type="search"] {
+        width: 100%;
+        border: 1px solid rgba(210, 7, 74, 0.16);
+        border-radius: 12px;
+        padding: 14px 16px;
+        font: inherit;
+        color: var(--ink);
+        background: rgba(255, 255, 255, 0.94);
+      }
+
+      .search-empty {
+        padding: 14px 2px 4px;
       }
 
       table {
@@ -720,8 +968,13 @@ function buildHtml(payload) {
           grid-template-columns: 1fr;
         }
 
-        .children {
-          margin-left: 8px;
+        .org-children {
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .org-children::after {
+          left: 18px;
+          right: 18px;
         }
       }
     </style>
@@ -754,50 +1007,53 @@ function buildHtml(payload) {
       <main class="content">
         <section class="cards" id="summary-cards"></section>
 
-        <section class="grid">
-          <article class="panel">
-            <div class="panel-head">
-              <div>
-                <h2>조직도</h2>
-                <p>기준일 시점의 조직 트리와 팀별 인원 구성</p>
-              </div>
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>조직도</h2>
+              <p>팀명과 팀장을 중심으로 보여주고, 카드 hover 시 직속 팀원을 확인</p>
             </div>
-            <div id="org-tree" class="tree"></div>
-          </article>
+          </div>
+          <div id="org-tree" class="org-chart-shell"></div>
+        </section>
 
-          <article class="panel">
-            <div class="panel-head">
-              <div>
-                <h2>팀 요약</h2>
-                <p>직속 인원과 하위 포함 조직 규모를 함께 표시</p>
-              </div>
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>팀 요약</h2>
+              <p>직속 인원과 하위 포함 조직 규모를 함께 표시</p>
             </div>
-            <div style="overflow:auto">
-              <table>
-                <thead>
-                  <tr>
-                    <th>조직</th>
-                    <th>직속</th>
-                    <th>하위 포함</th>
-                    <th>근무</th>
-                    <th>휴직</th>
-                    <th>리더</th>
-                  </tr>
-                </thead>
-                <tbody id="team-summary"></tbody>
-              </table>
-            </div>
-          </article>
+          </div>
+          <div style="overflow:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th>조직</th>
+                  <th>직속</th>
+                  <th>하위 포함</th>
+                  <th>근무</th>
+                  <th>휴직</th>
+                  <th>리더</th>
+                </tr>
+              </thead>
+              <tbody id="team-summary"></tbody>
+            </table>
+          </div>
         </section>
 
         <section class="panel">
           <div class="panel-head">
             <div>
               <h2>직원 스냅샷</h2>
-              <p>기준일 당시의 재직 직원과 소속 상태</p>
+              <p>이름, 직원 ID, 팀명으로 검색했을 때만 결과를 표시</p>
             </div>
           </div>
-          <div style="overflow:auto">
+          <div class="employee-search">
+            <label for="employee-search">직원 검색</label>
+            <input id="employee-search" type="search" placeholder="예: EMP-0067, 홍채린, 프론트엔드팀" />
+          </div>
+          <div id="employee-empty" class="empty search-empty">검색어를 입력하면 직원 스냅샷이 표시됩니다.</div>
+          <div id="employee-table-wrap" style="overflow:auto; display:none">
             <table>
               <thead>
                 <tr>
@@ -830,9 +1086,12 @@ function buildHtml(payload) {
       const BOOTSTRAP = ${serialized};
 
       const ROLE_LABELS = {
+        CEO: "대표",
+        VICE_CEO: "부대표",
+        EVP: "전무",
+        SVP: "상무",
+        DIRECTOR: "이사",
         TEAM_LEAD: "팀장",
-        HEAD: "본부장",
-        DIRECTOR: "대표",
       };
 
       const TEAM_TYPE_ORDER = {
@@ -841,10 +1100,19 @@ function buildHtml(payload) {
         TEAM: 2,
       };
 
+      const TEAM_TYPE_LABELS = {
+        COMPANY: "Company",
+        DIVISION: "Division",
+        TEAM: "Team",
+      };
+
       const ROLE_ORDER = {
-        DIRECTOR: 0,
-        HEAD: 1,
-        TEAM_LEAD: 2,
+        CEO: 0,
+        VICE_CEO: 1,
+        EVP: 2,
+        SVP: 3,
+        DIRECTOR: 4,
+        TEAM_LEAD: 5,
       };
 
       function isTrue(value) {
@@ -996,6 +1264,7 @@ function buildHtml(payload) {
             ...node,
             depth,
             children,
+            leaderEmployeeId: leader ? leader.employee_id : "",
             leaderName,
             leaderRole,
             stats: {
@@ -1034,7 +1303,7 @@ function buildHtml(payload) {
                 : "미배정",
               onLeave: leaveByEmployee.has(employeeId),
               isTerminationDay: employment?.employment_end === targetDate,
-              roleText: roleRows.map((row) => ROLE_LABELS[row.role_code] || row.role_code).join(", "),
+              roleText: roleRows.map((row) => ROLE_LABELS[row.role_code] || row.role_code).join(", ") || "팀원",
               employmentType: employee?.employment_type || "",
               note: employee?.status_note || "",
             };
@@ -1096,54 +1365,76 @@ function buildHtml(payload) {
         if (nodes.length === 0) {
           return '<p class="empty">선택한 날짜에 유효한 조직 구조가 없습니다.</p>';
         }
-        return nodes.map(renderTreeNode).join("");
+        return \`
+          <div class="org-chart">
+            \${nodes.map(renderTreeNode).join("")}
+          </div>
+        \`;
       }
 
       function renderTreeNode(node) {
-        const members = node.directMembers.length
-          ? \`
-              <div class="members">
-                \${node.directMembers
-                  .map((member) => {
-                    const classes = ["member"];
-                    if (member.onLeave) {
-                      classes.push("leave");
-                    }
-                    if (member.isTerminationDay) {
-                      classes.push("termination");
-                    }
-                    const suffix = [
-                      member.roleText ? member.roleText : "",
-                      member.onLeave ? "휴직" : "",
-                      member.isTerminationDay ? "당일 퇴사" : "",
-                    ]
-                      .filter(Boolean)
-                      .join(" · ");
-                    return \`<span class="\${classes.join(" ")}">\${escapeHtml(member.name)}\${suffix ? \` · \${escapeHtml(suffix)}\` : ""}</span>\`;
-                  })
-                  .join("")}
-              </div>
-            \`
-          : "";
+        const teamMembers = node.directMembers.filter((member) => member.employeeId !== node.leaderEmployeeId);
+        const leaderStatus = node.leaderName === "공석" ? "리더 공석" : node.leaderRole;
+        const membersMarkup = teamMembers.length
+          ? teamMembers
+              .map((member) => {
+                const notes = [];
+                if (member.roleText && member.roleText !== "팀원") {
+                  notes.push(member.roleText);
+                }
+                if (member.onLeave) {
+                  notes.push("휴직");
+                }
+                if (member.isTerminationDay) {
+                  notes.push("당일 퇴사");
+                }
+                return \`
+                  <div class="org-member-item">
+                    <span class="org-member-name">\${escapeHtml(member.name)}</span>
+                    <span class="org-member-note">\${escapeHtml(notes.join(" · ") || "팀원")}</span>
+                  </div>
+                \`;
+              })
+              .join("")
+          : '<div class="org-member-empty">직속 팀원이 없습니다.</div>';
         const children = node.children.length
-          ? \`<div class="children">\${node.children.map(renderTreeNode).join("")}</div>\`
+          ? \`<div class="org-children">\${node.children.map(renderTreeNode).join("")}</div>\`
           : "";
 
         return \`
-          <section class="tree-node">
-            <div class="tree-header">
-              <h3 class="tree-name">\${escapeHtml(node.teamName)}</h3>
-              <span class="tag">\${escapeHtml(node.teamType)}</span>
-              <span class="tag">직속 \${node.stats.directActive}</span>
-              <span class="tag">하위 포함 \${node.stats.subtreeActive}</span>
+          <section class="org-group depth-\${node.depth} \${node.children.length ? "has-children" : ""}">
+            <div class="org-card-anchor">
+              <article class="org-card" tabindex="0" aria-label="\${escapeHtml(node.teamName)} 조직 카드">
+                <div class="org-card-band"></div>
+                <div class="org-card-type">\${escapeHtml(TEAM_TYPE_LABELS[node.teamType] || node.teamType)}</div>
+                <h3 class="org-card-title">\${escapeHtml(node.teamName)}</h3>
+                <div class="org-card-leader-label">Leader</div>
+                <div class="org-card-leader">\${escapeHtml(node.leaderName)}</div>
+                <div class="org-card-caption">\${escapeHtml(leaderStatus)}</div>
+                <div class="org-card-meta">
+                  <span class="org-chip">직속 \${node.stats.directActive}</span>
+                  <span class="org-chip">근무 \${node.stats.subtreeWorking}</span>
+                  <span class="org-chip">휴직 \${node.stats.subtreeLeave}</span>
+                </div>
+                <div class="org-popover" role="note" aria-hidden="true">
+                  <div class="org-popover-head">
+                    <div class="org-popover-title">\${escapeHtml(node.teamName)}</div>
+                    <div class="org-popover-sub">직속 \${node.stats.directActive}명</div>
+                  </div>
+                  <div class="org-popover-section">
+                    <div class="org-popover-label">Leader</div>
+                    <div class="org-member-item">
+                      <span class="org-member-name">\${escapeHtml(node.leaderName)}</span>
+                      <span class="org-member-note">\${escapeHtml(leaderStatus)}</span>
+                    </div>
+                  </div>
+                  <div class="org-popover-section">
+                    <div class="org-popover-label">Members</div>
+                    <div class="org-member-list">\${membersMarkup}</div>
+                  </div>
+                </div>
+              </article>
             </div>
-            <div class="tree-meta">
-              <span>리더: <strong>\${escapeHtml(node.leaderName)}</strong></span>
-              <span>근무 \${node.stats.subtreeWorking}</span>
-              <span>휴직 \${node.stats.subtreeLeave}</span>
-              \${node.note ? \`<span>메모: \${escapeHtml(node.note)}</span>\` : ""}
-            </div>
-            \${members}
             \${children}
           </section>
         \`;
@@ -1185,6 +1476,28 @@ function buildHtml(payload) {
           .join("");
       }
 
+      function filterEmployees(employees, rawQuery) {
+        const query = rawQuery.trim().toLowerCase();
+        if (!query) {
+          return [];
+        }
+
+        return employees.filter((employee) => {
+          const haystack = [
+            employee.employeeId,
+            employee.name,
+            employee.teamName,
+            employee.roleText,
+            employee.employmentType,
+            employee.note,
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+          return haystack.includes(query);
+        });
+      }
+
       function renderWarnings(warnings) {
         if (warnings.length === 0) {
           return '<p class="empty">경고 없음. 현재 데이터셋에서는 기본 무결성 검사를 통과했습니다.</p>';
@@ -1195,19 +1508,38 @@ function buildHtml(payload) {
 
       function refresh() {
         const dateInput = document.getElementById("snapshot-date");
+        const searchInput = document.getElementById("employee-search");
         const snapshot = computeSnapshot(dateInput.value);
+        const filteredEmployees = filterEmployees(snapshot.employees, searchInput.value);
         document.getElementById("summary-cards").innerHTML = renderCards(snapshot);
         document.getElementById("org-tree").innerHTML = renderTree(snapshot.roots);
         document.getElementById("team-summary").innerHTML = renderTeamSummary(snapshot.teams);
-        document.getElementById("employee-summary").innerHTML = renderEmployees(snapshot.employees);
+
+        const employeeEmpty = document.getElementById("employee-empty");
+        const employeeTableWrap = document.getElementById("employee-table-wrap");
+        if (!searchInput.value.trim()) {
+          employeeEmpty.textContent = "검색어를 입력하면 직원 스냅샷이 표시됩니다.";
+          employeeEmpty.style.display = "block";
+          employeeTableWrap.style.display = "none";
+        } else if (filteredEmployees.length === 0) {
+          employeeEmpty.textContent = "검색 결과가 없습니다.";
+          employeeEmpty.style.display = "block";
+          employeeTableWrap.style.display = "none";
+        } else {
+          employeeEmpty.style.display = "none";
+          employeeTableWrap.style.display = "block";
+          document.getElementById("employee-summary").innerHTML = renderEmployees(filteredEmployees);
+        }
       }
 
       function boot() {
         const dateInput = document.getElementById("snapshot-date");
+        const searchInput = document.getElementById("employee-search");
         dateInput.min = BOOTSTRAP.meta.minDate;
         dateInput.max = BOOTSTRAP.meta.maxDate;
         dateInput.value = BOOTSTRAP.meta.defaultDate;
         dateInput.addEventListener("input", refresh);
+        searchInput.addEventListener("input", refresh);
 
         document.getElementById("generated-at").textContent = BOOTSTRAP.meta.generatedAt.slice(0, 16).replace("T", " ");
         document.getElementById("date-range").textContent = \`\${BOOTSTRAP.meta.minDate} ~ \${BOOTSTRAP.meta.maxDate}\`;

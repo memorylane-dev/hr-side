@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "sample": "node scripts/generate-sample-data.mjs",
     "build": "node scripts/build-report.mjs"
   }
 }

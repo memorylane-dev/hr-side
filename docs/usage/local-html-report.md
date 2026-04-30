@@ -5,13 +5,22 @@
 이 저장소는 아래 흐름으로 사용한다.
 
 1. 저장소를 `git clone`
-2. `data/current/*.csv` 수정
-3. 로컬 명령으로 HTML 리포트 생성
-4. 브라우저에서 날짜를 바꿔가며 조직도와 통계를 조회
+2. 필요하면 `npm run sample`로 기본 샘플 재생성
+3. `data/current/*.csv` 수정
+4. 로컬 명령으로 HTML 리포트 생성
+5. 브라우저에서 날짜를 바꿔가며 조직도와 통계를 조회
 
 ## 2. 기본 명령
 
 저장소 루트에서 아래 명령을 실행한다.
+
+샘플 데이터를 초기 상태로 다시 만들고 싶으면 먼저 아래 명령을 실행한다.
+
+```bash
+npm run sample
+```
+
+그 다음 HTML 리포트를 생성한다.
 
 ```bash
 npm run build
@@ -76,6 +85,7 @@ node scripts/build-report.mjs --check-date 2026-04-30
 1. 날짜 형식은 반드시 `YYYY-MM-DD`
 2. 동일 시점 중복 주 소속, 중복 팀장 같은 문제는 경고로 표시된다
 3. HTML은 self-contained 파일이라 별도 서버 없이 열 수 있다
+4. 조직도 카드에는 `팀명 + 리더`가 보이고, hover 또는 focus 시 직속 팀원 목록이 뜬다
 
 ## 6. 관련 문서
 
