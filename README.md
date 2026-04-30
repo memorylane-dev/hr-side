@@ -120,6 +120,37 @@ npm run sample
 node scripts/build-report.mjs --check-date 2026-04-30
 ```
 
+## Vercel 배포
+
+이 프로젝트는 `dist/index.html` 하나를 만드는 정적(static) HTML 리포트라서 Vercel 배포가 단순합니다.
+
+- Vercel 설정 파일: [vercel.json](/Users/shlee/Developments/hr-side/vercel.json)
+- 배포 시 Vercel은 `npm run build`를 실행하고 `dist` 폴더를 배포합니다
+- 따라서 CSV를 직접 수정해도, 배포 시점에 최신 CSV 기준으로 다시 HTML이 생성됩니다
+
+### GitHub 연결 방식
+
+1. 이 저장소를 GitHub에 push 한다
+2. Vercel에서 `New Project`를 누른다
+3. `memorylane-dev/hr-side` 저장소를 선택한다
+4. Framework Preset은 `Other`로 두거나 자동 감지를 그대로 사용한다
+5. Root Directory는 저장소 루트(`/`)로 둔다
+6. Build / Output 설정은 `vercel.json` 값을 그대로 사용한다
+7. Deploy를 누른다
+
+### Vercel에서 확인할 항목
+
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Node 버전은 기본값으로 충분
+
+### 배포 후 운영 방식
+
+1. 인사팀이 `data/current/*.csv`를 수정한다
+2. 변경 내용을 GitHub `main`에 반영한다
+3. Vercel이 자동으로 다시 배포한다
+4. 배포 URL에서 최신 조직도와 통계를 확인한다
+
 ## 추가 문서
 
 - 운영 규칙: [docs/operations/data-rules.md](/Users/shlee/Developments/hr-side/docs/operations/data-rules.md)

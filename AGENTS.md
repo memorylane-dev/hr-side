@@ -25,6 +25,7 @@ CSV를 수정한 뒤에는 반드시 다시 build 해야 한다.
 - hover 또는 focus 시 직속 팀원 popover
 - 팀 요약 테이블
 - 직원 검색 결과 표시
+- Vercel 정적 배포용 빌드 출력
 
 현재 리포트는 아래를 지원하지 않는다.
 
@@ -50,6 +51,8 @@ CSV를 수정한 뒤에는 반드시 다시 build 해야 한다.
   - CSV를 읽어 self-contained HTML을 생성
 - [dist/index.html](/Users/shlee/Developments/hr-side/dist/index.html)
   - 생성 결과물
+- [vercel.json](/Users/shlee/Developments/hr-side/vercel.json)
+  - Vercel build/output 설정
 
 ### 샘플 데이터 생성
 
@@ -145,9 +148,10 @@ CSV를 수정한 뒤에는 반드시 다시 build 해야 한다.
 2. `npm run build`
 3. 필요하면 `README.md`
 4. 필요하면 `AGENTS.md`
+5. 배포 영향이 있으면 `vercel.json`
 
 ## 현재 저장소 상태
 
 - 원격 저장소: `origin = https://github.com/memorylane-dev/hr-side.git`
 - 기본 브랜치: `main`
-- 현재는 문서, 로컬 CSV 데이터셋, 샘플 생성기, 단일 HTML 리포트 생성기가 있는 상태다
+- 현재는 문서, 로컬 CSV 데이터셋, 샘플 생성기, 단일 HTML 리포트 생성기, Vercel 배포 설정이 있는 상태다

@@ -557,57 +557,65 @@ function buildHtml(payload) {
 
       .org-chart {
         display: grid;
-        gap: 22px;
+        gap: 0;
         overflow: visible;
       }
 
       .org-root-stage {
+        position: relative;
         display: grid;
         justify-items: center;
+      }
+
+      .org-root-stage.has-children {
+        padding-bottom: 34px;
       }
 
       .org-root-stage.has-children::after {
         content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
         width: 2px;
-        height: 24px;
-        margin-top: 10px;
+        height: 34px;
+        background: #111111;
+        transform: translateX(-50%);
+      }
+
+      .org-division-board {
+        position: relative;
+        padding-top: 24px;
+        overflow: visible;
+      }
+
+      .org-division-board::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 52px;
+        right: 52px;
+        height: 2px;
         background: #111111;
       }
 
-      .org-stage-stack {
+      .org-division-grid {
         display: grid;
-        gap: 28px;
+        gap: 20px 18px;
+        grid-template-columns: repeat(var(--org-columns, 1), minmax(0, 1fr));
+        align-items: start;
       }
 
-      .org-stage {
+      .org-division-column {
+        position: relative;
         display: grid;
-        gap: 0;
+        align-content: start;
         justify-items: center;
-        overflow: visible;
-      }
-
-      .org-stage-head,
-      .org-stage-slot,
-      .org-node-cluster {
-        position: relative;
-        width: 100%;
-        overflow: visible;
-      }
-
-      .org-stage-head {
-        display: flex;
-        justify-content: center;
-      }
-
-      .org-stage-children {
-        position: relative;
-        width: 100%;
-        margin-top: 12px;
         padding-top: 22px;
         overflow: visible;
+        z-index: 0;
       }
 
-      .org-stage-children::before {
+      .org-division-column::before {
         content: "";
         position: absolute;
         top: 0;
@@ -618,83 +626,95 @@ function buildHtml(payload) {
         transform: translateX(-50%);
       }
 
-      .org-stage-row {
+      .org-division-column:hover,
+      .org-division-column:focus-within,
+      .org-team-branch:hover,
+      .org-team-branch:focus-within {
+        z-index: 220;
+      }
+
+      .org-division-head {
         position: relative;
-        display: grid;
-        gap: 18px 14px;
-        grid-template-columns: repeat(var(--org-columns, 1), minmax(0, 1fr));
-        align-items: start;
         width: 100%;
-        padding-top: 18px;
-        overflow: visible;
+        display: flex;
+        justify-content: center;
       }
 
-      .org-stage-row::before {
+      .org-division-column.has-children .org-division-head::after {
         content: "";
         position: absolute;
-        top: 0;
-        left: 28px;
-        right: 28px;
-        height: 2px;
-        background: #111111;
-      }
-
-      .org-stage-row.single {
-        max-width: 240px;
-        margin: 0 auto;
-        padding-top: 0;
-      }
-
-      .org-stage-row.single::before {
-        display: none;
-      }
-
-      .org-stage-slot {
-        padding-top: 18px;
-        display: grid;
-        justify-items: center;
-      }
-
-      .org-stage-slot::before {
-        content: "";
-        position: absolute;
-        top: 0;
         left: 50%;
+        top: 100%;
         width: 2px;
-        height: 18px;
+        height: 26px;
         background: #111111;
         transform: translateX(-50%);
       }
 
-      .org-stage-row.single .org-stage-slot {
-        padding-top: 0;
+      .org-division-empty {
+        width: 100%;
+        margin-top: 14px;
+        padding-left: 30px;
+        color: var(--muted);
+        font-size: 12px;
       }
 
-      .org-stage-row.single .org-stage-slot::before {
-        top: -18px;
-      }
-
-      .org-node-cluster {
+      .org-team-stack,
+      .org-team-children {
+        position: relative;
+        width: 100%;
         display: grid;
-        gap: 0;
-        z-index: 0;
+        gap: 12px;
+        overflow: visible;
       }
 
-      .org-node-cluster:hover,
-      .org-node-cluster:focus-within {
-        z-index: 240;
+      .org-team-stack {
+        margin-top: 8px;
+        padding-top: 18px;
+        padding-left: 28px;
       }
 
-      .org-node-cluster.has-children {
-        justify-items: center;
+      .org-team-children {
+        margin-top: 2px;
+        padding-left: 22px;
       }
 
-      .org-node-cluster.has-children > .org-stage-children {
-        width: min(100%, 540px);
+      .org-team-stack::before,
+      .org-team-children::before {
+        content: "";
+        position: absolute;
+        top: 8px;
+        bottom: 20px;
+        left: 10px;
+        width: 2px;
+        background: #111111;
       }
 
-      .org-node-cluster.has-children > .org-stage-children .org-stage-row {
-        gap: 14px 10px;
+      .org-team-stack::after {
+        content: "";
+        position: absolute;
+        top: 18px;
+        left: 10px;
+        right: 50%;
+        height: 2px;
+        background: #111111;
+      }
+
+      .org-team-branch {
+        position: relative;
+        display: grid;
+        gap: 12px;
+        overflow: visible;
+      }
+
+      .org-team-branch::before {
+        content: "";
+        position: absolute;
+        left: 10px;
+        top: 21px;
+        width: 16px;
+        height: 2px;
+        background: #111111;
       }
 
       .org-card-anchor {
@@ -703,6 +723,11 @@ function buildHtml(payload) {
         justify-content: center;
         width: 100%;
         overflow: visible;
+      }
+
+      .org-team-branch > .org-card-anchor {
+        justify-content: flex-start;
+        padding-left: 26px;
       }
 
       .org-card {
@@ -999,6 +1024,15 @@ function buildHtml(payload) {
         .cards {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
+
+        .org-division-board::before {
+          left: 34px;
+          right: 34px;
+        }
+
+        .org-division-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
       }
 
       @media (max-width: 720px) {
@@ -1017,22 +1051,32 @@ function buildHtml(payload) {
           grid-template-columns: 1fr;
         }
 
-        .org-stage-row {
-          grid-template-columns: 1fr;
-          padding-top: 0;
+        .org-root-stage {
+          justify-items: stretch;
         }
 
-        .org-stage-row::before,
-        .org-stage-slot::before {
+        .org-root-stage.has-children::after,
+        .org-division-board::before,
+        .org-division-column::before {
           display: none;
         }
 
-        .org-stage-children {
-          padding-top: 14px;
+        .org-division-board {
+          padding-top: 0;
         }
 
-        .org-stage-children::before {
-          height: 14px;
+        .org-division-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .org-division-column {
+          padding-top: 0;
+          justify-items: stretch;
+        }
+
+        .org-division-head,
+        .org-card-anchor {
+          justify-content: flex-start;
         }
 
         .org-team-card,
@@ -1440,65 +1484,57 @@ function buildHtml(payload) {
         const companyRoot = nodes.find((node) => node.teamType === "COMPANY") || null;
 
         if (!companyRoot) {
-          return \`
-            <div class="org-chart">
-              <div class="org-stage-stack">\${nodes.map(renderStageSection).join("")}</div>
-            </div>
-          \`;
+          return \`<div class="org-chart">\${renderDivisionBoard(nodes)}</div>\`;
         }
 
-        const childStages = companyRoot.children.map(renderStageSection).join("");
+        const childNodes = companyRoot.children;
 
         return \`
           <div class="org-chart">
-            <section class="org-root-stage \${companyRoot.children.length ? "has-children" : ""}">
+            <section class="org-root-stage \${childNodes.length ? "has-children" : ""}">
               \${renderOrgCard(companyRoot, { interactive: false, className: "org-root-card" })}
             </section>
-            \${childStages ? \`<div class="org-stage-stack">\${childStages}</div>\` : ""}
+            \${childNodes.length ? renderDivisionBoard(childNodes) : ""}
           </div>
         \`;
       }
 
-      function renderStageSection(node) {
-        const interactive = node.teamType === "TEAM";
+      function renderDivisionBoard(nodes) {
         return \`
-          <section class="org-stage">
-            <div class="org-stage-head">
-              \${renderOrgCard(node, { interactive, className: resolveOrgCardClass(node) })}
+          <section class="org-division-board">
+            <div class="org-division-grid" style="--org-columns:\${nodes.length}">
+              \${nodes.map(renderDivisionColumn).join("")}
             </div>
-            \${renderStageChildren(node.children)}
           </section>
         \`;
       }
 
-      function renderStageChildren(children) {
-        if (children.length === 0) {
-          return "";
-        }
-
-        const rowClasses = ["org-stage-row"];
-        if (children.length === 1) {
-          rowClasses.push("single");
-        }
-
+      function renderDivisionColumn(node) {
+        const interactive = node.teamType === "TEAM";
+        const childrenMarkup = node.children.length
+          ? \`<div class="org-team-stack">\${node.children.map((child) => renderTeamBranch(child, 0)).join("")}</div>\`
+          : node.teamType === "TEAM"
+            ? ""
+            : '<div class="org-division-empty">소속 팀이 없습니다.</div>';
         return \`
-          <div class="org-stage-children">
-            <div class="\${rowClasses.join(" ")}" style="--org-columns:\${children.length}">
-              \${children.map((child) => \`<div class="org-stage-slot">\${renderStageNode(child)}</div>\`).join("")}
+          <section class="org-division-column \${node.children.length ? "has-children" : ""}">
+            <div class="org-division-head">
+              \${renderOrgCard(node, { interactive, className: resolveOrgCardClass(node) })}
             </div>
-          </div>
+            \${childrenMarkup}
+          </section>
         \`;
       }
 
-      function renderStageNode(node) {
+      function renderTeamBranch(node, depth) {
         const interactive = node.teamType === "TEAM";
         return \`
-          <div class="org-node-cluster \${node.children.length ? "has-children" : ""}">
+          <div class="org-team-branch depth-\${depth}">
             \${renderOrgCard(node, {
               interactive,
               className: resolveOrgCardClass(node),
             })}
-            \${renderStageChildren(node.children)}
+            \${node.children.length ? \`<div class="org-team-children">\${node.children.map((child) => renderTeamBranch(child, depth + 1)).join("")}</div>\` : ""}
           </div>
         \`;
       }
