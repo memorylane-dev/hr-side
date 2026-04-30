@@ -618,10 +618,10 @@ function buildHtml(payload) {
       .org-division-column::before {
         content: "";
         position: absolute;
-        top: 0;
+        top: -24px;
         left: 50%;
         width: 2px;
-        height: 22px;
+        height: 46px;
         background: #111111;
         transform: translateX(-50%);
       }
