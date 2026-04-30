@@ -372,18 +372,16 @@ function buildHtml(payload) {
     <title>HR Snapshot Report</title>
     <style>
       :root {
-        --bg: #fff7fa;
-        --bg-accent: #ffe2ed;
-        --panel: rgba(255, 255, 255, 0.94);
-        --panel-border: rgba(210, 7, 74, 0.12);
-        --ink: #1f1116;
-        --muted: #72515d;
+        --bg: #ffffff;
+        --panel: #ffffff;
+        --panel-border: rgba(0, 0, 0, 0.82);
+        --ink: #111111;
+        --muted: #5d5d5d;
         --brand: #d2074a;
-        --brand-soft: #ffd5e4;
-        --ok: #9f1239;
-        --warn: #8f1231;
-        --shadow: 0 16px 36px rgba(210, 7, 74, 0.10);
-        --radius: 16px;
+        --ok: #111111;
+        --warn: #7f1638;
+        --shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        --radius: 8px;
       }
 
       * {
@@ -395,10 +393,7 @@ function buildHtml(payload) {
         min-height: 100vh;
         color: var(--ink);
         font-family: "IBM Plex Sans KR", "Pretendard", "Apple SD Gothic Neo", sans-serif;
-        background:
-          radial-gradient(circle at top left, rgba(210, 7, 74, 0.12), transparent 36%),
-          radial-gradient(circle at bottom right, rgba(255, 183, 208, 0.22), transparent 30%),
-          linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+        background: var(--bg);
       }
 
       .page {
@@ -420,7 +415,6 @@ function buildHtml(payload) {
         border: 1px solid var(--panel-border);
         border-radius: var(--radius);
         box-shadow: var(--shadow);
-        backdrop-filter: blur(8px);
       }
 
       .hero-copy {
@@ -481,12 +475,12 @@ function buildHtml(payload) {
 
       input[type="date"] {
         width: 100%;
-        border: 1px solid rgba(31, 23, 18, 0.16);
-        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.78);
+        border-radius: 6px;
         padding: 14px 16px;
         font: inherit;
         color: var(--ink);
-        background: rgba(255, 255, 255, 0.85);
+        background: #ffffff;
       }
 
       .meta-list {
@@ -572,13 +566,12 @@ function buildHtml(payload) {
         display: grid;
         justify-items: center;
         z-index: 0;
-        isolation: isolate;
         overflow: visible;
       }
 
       .org-group:hover,
       .org-group:focus-within {
-        z-index: 80;
+        z-index: 240;
       }
 
       .org-group.depth-0 {
@@ -590,6 +583,7 @@ function buildHtml(payload) {
         display: flex;
         justify-content: center;
         width: 100%;
+        z-index: 0;
         overflow: visible;
       }
 
@@ -600,7 +594,7 @@ function buildHtml(payload) {
         bottom: -18px;
         width: 1px;
         height: 18px;
-        background: rgba(210, 7, 74, 0.22);
+        background: rgba(0, 0, 0, 0.42);
         transform: translateX(-50%);
       }
 
@@ -621,7 +615,7 @@ function buildHtml(payload) {
         top: 0;
         width: 1px;
         height: 24px;
-        background: rgba(210, 7, 74, 0.22);
+        background: rgba(0, 0, 0, 0.42);
         transform: translateX(-50%);
       }
 
@@ -632,12 +626,17 @@ function buildHtml(payload) {
         right: 28px;
         top: 0;
         height: 1px;
-        background: rgba(210, 7, 74, 0.22);
+        background: rgba(0, 0, 0, 0.42);
       }
 
       .org-children > .org-group {
         position: relative;
         padding-top: 18px;
+      }
+
+      .org-children > .org-group:hover,
+      .org-children > .org-group:focus-within {
+        z-index: 280;
       }
 
       .org-children > .org-group::before {
@@ -647,20 +646,18 @@ function buildHtml(payload) {
         top: 0;
         width: 1px;
         height: 18px;
-        background: rgba(210, 7, 74, 0.22);
+        background: rgba(0, 0, 0, 0.42);
         transform: translateX(-50%);
       }
 
       .org-card {
         position: relative;
-        width: min(100%, 260px);
-        padding: 14px 16px 16px;
-        border-radius: 14px;
-        border: 1px solid rgba(210, 7, 74, 0.16);
-        background:
-          linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 242, 247, 0.96)),
-          linear-gradient(135deg, rgba(210, 7, 74, 0.08), rgba(255, 213, 228, 0.30));
-        box-shadow: 0 16px 30px rgba(210, 7, 74, 0.10);
+        width: min(100%, 228px);
+        padding: 12px 13px 13px;
+        border-radius: 4px;
+        border: 2px solid #111111;
+        background: #ffffff;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
         text-align: left;
         transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
         outline: none;
@@ -670,85 +667,81 @@ function buildHtml(payload) {
       .org-card:focus-within,
       .org-card:focus {
         transform: translateY(-3px);
-        box-shadow: 0 20px 36px rgba(210, 7, 74, 0.14);
-        border-color: rgba(210, 7, 74, 0.28);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+        border-color: #000000;
+        z-index: 320;
       }
 
       .org-group.depth-0 > .org-card-anchor > .org-card {
-        min-width: 280px;
-        max-width: 320px;
-        padding: 18px 20px 18px;
-        background:
-          linear-gradient(180deg, rgba(210, 7, 74, 0.96), rgba(173, 5, 61, 0.98)),
-          linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-        color: #fff8fb;
+        min-width: 244px;
+        max-width: 268px;
+        padding: 14px 16px 15px;
+        background: #ffffff;
+        color: var(--ink);
+        border: 2px solid #000000;
       }
 
       .org-group.depth-0 > .org-card-anchor > .org-card .org-card-type,
-      .org-group.depth-0 > .org-card-anchor > .org-card .org-card-caption,
       .org-group.depth-0 > .org-card-anchor > .org-card .org-card-meta,
-      .org-group.depth-0 > .org-card-anchor > .org-card .org-card-leader-label {
-        color: rgba(248, 244, 239, 0.78);
+      .org-group.depth-0 > .org-card-anchor > .org-card .org-card-role {
+        color: var(--muted);
       }
 
       .org-group.depth-1 > .org-card-anchor > .org-card {
-        width: min(100%, 280px);
+        width: min(100%, 236px);
       }
 
       .org-group.depth-2 > .org-card-anchor > .org-card {
-        width: min(100%, 240px);
+        width: min(100%, 220px);
       }
 
       .org-card-band {
-        height: 10px;
-        width: 84px;
-        border-radius: 999px;
-        background: linear-gradient(90deg, #d2074a, #ff6f9e);
-        margin-bottom: 12px;
+        height: 4px;
+        width: 42px;
+        border-radius: 2px;
+        background: var(--brand);
+        margin-bottom: 10px;
       }
 
       .org-card-type {
         margin: 0;
         color: var(--muted);
-        font-size: 11px;
+        font-size: 10px;
         font-weight: 700;
-        letter-spacing: 0.16em;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
       }
 
       .org-card-title {
-        margin-top: 7px;
-        font-size: 23px;
+        margin-top: 6px;
+        font-size: 20px;
         line-height: 1.08;
       }
 
-      .org-card-leader-label {
-        margin-top: 14px;
-        color: var(--muted);
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-
       .org-card-leader {
-        margin-top: 4px;
-        font-size: 17px;
-        font-weight: 700;
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 6px;
+        font-size: 15px;
         line-height: 1.25;
       }
 
-      .org-card-caption {
-        margin-top: 4px;
+      .org-card-leader-name {
+        font-weight: 700;
+      }
+
+      .org-card-role {
         color: var(--muted);
         font-size: 13px;
       }
 
       .org-card-meta {
-        margin-top: 12px;
+        margin-top: 10px;
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
+        gap: 6px;
         color: var(--muted);
         font-size: 12px;
       }
@@ -757,24 +750,25 @@ function buildHtml(payload) {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        padding: 5px 9px;
-        border-radius: 999px;
-        background: rgba(210, 7, 74, 0.08);
-        color: var(--brand);
+        padding: 4px 7px;
+        border-radius: 4px;
+        border: 1px solid #111111;
+        background: #ffffff;
+        color: var(--ink);
         font-weight: 700;
       }
 
       .org-popover {
         position: absolute;
-        z-index: 40;
+        z-index: 340;
         top: calc(100% + 12px);
         left: 50%;
         width: 290px;
         padding: 14px;
-        border-radius: 14px;
-        border: 1px solid rgba(210, 7, 74, 0.18);
-        background: rgba(255, 255, 255, 0.99);
-        box-shadow: 0 20px 38px rgba(210, 7, 74, 0.16);
+        border-radius: 6px;
+        border: 1px solid rgba(0, 0, 0, 0.82);
+        background: #ffffff;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
         opacity: 0;
         pointer-events: none;
         transform: translate(-50%, 8px);
@@ -797,9 +791,9 @@ function buildHtml(payload) {
         left: 50%;
         width: 14px;
         height: 14px;
-        background: rgba(255, 255, 255, 0.99);
-        border-top: 1px solid rgba(210, 7, 74, 0.18);
-        border-left: 1px solid rgba(210, 7, 74, 0.18);
+        background: #ffffff;
+        border-top: 1px solid rgba(0, 0, 0, 0.82);
+        border-left: 1px solid rgba(0, 0, 0, 0.82);
         transform: translateX(-50%) rotate(45deg);
       }
 
@@ -843,8 +837,9 @@ function buildHtml(payload) {
         justify-content: space-between;
         gap: 10px;
         padding: 8px 10px;
-        border-radius: 10px;
-        background: rgba(31, 23, 18, 0.04);
+        border-radius: 4px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: #fafafa;
         font-size: 13px;
       }
 
@@ -879,12 +874,12 @@ function buildHtml(payload) {
 
       input[type="search"] {
         width: 100%;
-        border: 1px solid rgba(210, 7, 74, 0.16);
-        border-radius: 12px;
+        border: 1px solid rgba(0, 0, 0, 0.78);
+        border-radius: 6px;
         padding: 14px 16px;
         font: inherit;
         color: var(--ink);
-        background: rgba(255, 255, 255, 0.94);
+        background: #ffffff;
       }
 
       .search-empty {
@@ -926,26 +921,13 @@ function buildHtml(payload) {
       }
 
       .status-active {
-        background: rgba(29, 107, 67, 0.12);
+        background: rgba(0, 0, 0, 0.06);
         color: var(--ok);
       }
 
       .status-leave {
         background: rgba(176, 88, 43, 0.12);
         color: var(--warn);
-      }
-
-      .warnings {
-        display: grid;
-        gap: 10px;
-      }
-
-      .warning-item {
-        padding: 12px 14px;
-        border-radius: 14px;
-        background: rgba(176, 88, 43, 0.09);
-        color: #7e421f;
-        font-size: 14px;
       }
 
       .empty {
@@ -995,12 +977,10 @@ function buildHtml(payload) {
     <div class="page">
       <section class="hero">
         <article class="hero-card hero-copy">
-          <p class="eyebrow">Local CSV Report</p>
-          <h1>HR Snapshot Atlas</h1>
+          <h1>조직도 및 인사 현황</h1>
           <p>
-            로컬 CSV를 기준으로 특정 날짜의 조직도, 재직/휴직 상태, 당해연도 입퇴사 통계를
-            복원하는 self-contained HTML 리포트다. CSV만 수정하고 다시 build하면 같은 HTML
-            흐름으로 검증할 수 있다.
+            기준 날짜를 선택하면 당시 조직 구조와 재직, 휴직, 당해연도 입퇴사 현황을
+            한 화면에서 확인할 수 있습니다.
           </p>
         </article>
         <aside class="hero-card control-card">
@@ -1009,9 +989,7 @@ function buildHtml(payload) {
             <input id="snapshot-date" type="date" />
           </div>
           <div class="meta-list">
-            <div>생성 시각: <strong id="generated-at"></strong></div>
-            <div>데이터 범위: <strong id="date-range"></strong></div>
-            <div>검증 경고: <strong id="warning-count"></strong></div>
+            <div>조회 가능 기간: <strong id="date-range"></strong></div>
           </div>
         </aside>
       </section>
@@ -1082,15 +1060,6 @@ function buildHtml(payload) {
           </div>
         </section>
 
-        <section class="panel">
-          <div class="panel-head">
-            <div>
-              <h2>검증 경고</h2>
-              <p>빌드 시점 기준 데이터 무결성 검사 결과</p>
-            </div>
-          </div>
-          <div id="warnings" class="warnings"></div>
-        </section>
       </main>
     </div>
 
@@ -1386,7 +1355,7 @@ function buildHtml(payload) {
 
       function renderTreeNode(node) {
         const teamMembers = node.directMembers.filter((member) => member.employeeId !== node.leaderEmployeeId);
-        const leaderStatus = node.leaderName === "공석" ? "리더 공석" : node.leaderRole;
+        const leaderInline = node.leaderName === "공석" ? "공석" : \`\${node.leaderName} · \${node.leaderRole}\`;
         const membersMarkup = teamMembers.length
           ? teamMembers
               .map((member) => {
@@ -1420,11 +1389,11 @@ function buildHtml(payload) {
                 <div class="org-card-band"></div>
                 <div class="org-card-type">\${escapeHtml(TEAM_TYPE_LABELS[node.teamType] || node.teamType)}</div>
                 <h3 class="org-card-title">\${escapeHtml(node.teamName)}</h3>
-                <div class="org-card-leader-label">Leader</div>
-                <div class="org-card-leader">\${escapeHtml(node.leaderName)}</div>
-                <div class="org-card-caption">\${escapeHtml(leaderStatus)}</div>
+                <div class="org-card-leader">
+                  <span class="org-card-leader-name">\${escapeHtml(node.leaderName)}</span>
+                  <span class="org-card-role">\${escapeHtml(node.leaderName === "공석" ? "" : node.leaderRole)}</span>
+                </div>
                 <div class="org-card-meta">
-                  <span class="org-chip">직속 \${node.stats.directActive}</span>
                   <span class="org-chip">근무 \${node.stats.subtreeWorking}</span>
                   <span class="org-chip">휴직 \${node.stats.subtreeLeave}</span>
                 </div>
@@ -1436,8 +1405,8 @@ function buildHtml(payload) {
                   <div class="org-popover-section">
                     <div class="org-popover-label">Leader</div>
                     <div class="org-member-item">
-                      <span class="org-member-name">\${escapeHtml(node.leaderName)}</span>
-                      <span class="org-member-note">\${escapeHtml(leaderStatus)}</span>
+                      <span class="org-member-name">\${escapeHtml(leaderInline)}</span>
+                      <span class="org-member-note">\${escapeHtml(node.teamType === "COMPANY" ? "최상위 조직" : "조직 리더")}</span>
                     </div>
                   </div>
                   <div class="org-popover-section">
@@ -1510,14 +1479,6 @@ function buildHtml(payload) {
         });
       }
 
-      function renderWarnings(warnings) {
-        if (warnings.length === 0) {
-          return '<p class="empty">경고 없음. 현재 데이터셋에서는 기본 무결성 검사를 통과했습니다.</p>';
-        }
-
-        return warnings.map((warning) => \`<div class="warning-item">\${escapeHtml(warning)}</div>\`).join("");
-      }
-
       function refresh() {
         const dateInput = document.getElementById("snapshot-date");
         const searchInput = document.getElementById("employee-search");
@@ -1553,10 +1514,7 @@ function buildHtml(payload) {
         dateInput.addEventListener("input", refresh);
         searchInput.addEventListener("input", refresh);
 
-        document.getElementById("generated-at").textContent = BOOTSTRAP.meta.generatedAt.slice(0, 16).replace("T", " ");
         document.getElementById("date-range").textContent = \`\${BOOTSTRAP.meta.minDate} ~ \${BOOTSTRAP.meta.maxDate}\`;
-        document.getElementById("warning-count").textContent = \`\${BOOTSTRAP.warnings.length}건\`;
-        document.getElementById("warnings").innerHTML = renderWarnings(BOOTSTRAP.warnings);
 
         refresh();
       }
