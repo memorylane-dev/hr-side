@@ -195,6 +195,6 @@
 ## 10. 관련 문서
 
 - 상위 허브: [AGENTS.md](/Users/shlee/Developments/hr-side/AGENTS.md)
-- 범위 문서: [docs/specs/mvp-scope.md](/Users/shlee/Developments/hr-side/docs/specs/mvp-scope.md)
-- CSV 템플릿: [docs/templates/csv-files.md](/Users/shlee/Developments/hr-side/docs/templates/csv-files.md)
-- 로컬 사용 방법: [docs/usage/local-html-report.md](/Users/shlee/Developments/hr-side/docs/usage/local-html-report.md)
+- 사용 요약: [README.md](/Users/shlee/Developments/hr-side/README.md)
+- CSV 스키마: [docs/templates/csv-files.md](/Users/shlee/Developments/hr-side/docs/templates/csv-files.md)
+- 샘플 데이터: [docs/samples/reference-company.md](/Users/shlee/Developments/hr-side/docs/samples/reference-company.md)

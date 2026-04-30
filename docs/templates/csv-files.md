@@ -1,8 +1,8 @@
-# CSV 파일 템플릿
+# CSV 파일 스키마
 
 ## 1. 문서 역할
 
-이 문서는 HR MVP의 `로컬 CSV 입력 형식(input contract)`을 정의한다.
+이 문서는 HR 리포트의 `로컬 CSV 입력 형식(input contract)`을 정의한다.
 
 아래 항목의 기준 문서는 이 파일이다.
 
@@ -16,21 +16,7 @@
 
 ## 2. 파일 구조
 
-### 2.1 템플릿 파일
-
-아래 파일은 헤더 전용 템플릿이다.
-
-- `templates/csv/Employees.csv`
-- `templates/csv/Teams.csv`
-- `templates/csv/Employment_Periods.csv`
-- `templates/csv/Leave_Periods.csv`
-- `templates/csv/Team_Assignments.csv`
-- `templates/csv/Role_Assignments.csv`
-- `templates/csv/Team_Structure_History.csv`
-
-### 2.2 기본 작업 데이터
-
-clone 직후 수정할 기본 데이터는 아래 경로에 둔다.
+실제 작업 데이터는 아래 경로에 둔다.
 
 - `data/current/Employees.csv`
 - `data/current/Teams.csv`
@@ -39,6 +25,18 @@ clone 직후 수정할 기본 데이터는 아래 경로에 둔다.
 - `data/current/Team_Assignments.csv`
 - `data/current/Role_Assignments.csv`
 - `data/current/Team_Structure_History.csv`
+
+샘플 데이터를 초기 상태로 다시 만들려면 아래 명령을 실행한다.
+
+```bash
+npm run sample
+```
+
+CSV를 수정한 뒤에는 아래 명령으로 리포트를 다시 생성한다.
+
+```bash
+npm run build
+```
 
 ## 3. 파일별 컬럼 정의
 
@@ -189,6 +187,6 @@ clone 직후 수정할 기본 데이터는 아래 경로에 둔다.
 ## 6. 관련 문서
 
 - 상위 허브: [AGENTS.md](/Users/shlee/Developments/hr-side/AGENTS.md)
+- 사용 요약: [README.md](/Users/shlee/Developments/hr-side/README.md)
 - 운영 규칙: [docs/operations/data-rules.md](/Users/shlee/Developments/hr-side/docs/operations/data-rules.md)
-- 사용 방법: [docs/usage/local-html-report.md](/Users/shlee/Developments/hr-side/docs/usage/local-html-report.md)
 - 기본 데이터: [docs/samples/reference-company.md](/Users/shlee/Developments/hr-side/docs/samples/reference-company.md)

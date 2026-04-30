@@ -141,6 +141,6 @@ npm run sample
 ## 7. 관련 문서
 
 - 상위 허브: [AGENTS.md](/Users/shlee/Developments/hr-side/AGENTS.md)
+- 사용 요약: [README.md](/Users/shlee/Developments/hr-side/README.md)
 - 운영 규칙: [docs/operations/data-rules.md](/Users/shlee/Developments/hr-side/docs/operations/data-rules.md)
-- 템플릿: [docs/templates/csv-files.md](/Users/shlee/Developments/hr-side/docs/templates/csv-files.md)
-- 사용 방법: [docs/usage/local-html-report.md](/Users/shlee/Developments/hr-side/docs/usage/local-html-report.md)
+- CSV 스키마: [docs/templates/csv-files.md](/Users/shlee/Developments/hr-side/docs/templates/csv-files.md)
